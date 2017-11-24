@@ -11,6 +11,8 @@ PB5_MASK DCD 240;0x000000F0
 		EXPORT temp
 temp	DCB 0;Used to write to UARTDR
 
+		EXPORT TxFifo
+		EXPORT RxFifo
 	;Software FIFOs. Static
 TxFifo	DCB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ;16 bytes
 RxFifo	DCB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ;16 bytes

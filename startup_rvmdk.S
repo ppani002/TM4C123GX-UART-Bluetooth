@@ -45,9 +45,16 @@ Heap    EQU     0x00000000
 
 		;includes constants I define to startup file
 		INCLUDE my_Constants.s
+		;includes functions I define
+		;INCLUDE my_Subroutines.s
 		;Include variables I define to startup file
-		;INCLUDE my_Variables.s
 		IMPORT PB5_MASK
+		;IMPORT TxPutI
+		;IMPORT TxGetI
+		;IMPORT TxFifo
+		;IMPORT RxPutI
+		;IMPORT RxGetI
+		;IMPORT RxFifo
 
         AREA    STACK, NOINIT, READWRITE, ALIGN=3
 StackMem
@@ -108,7 +115,7 @@ __Vectors
         DCD     IntDefaultHandler           ; GPIO Port C
         DCD     IntDefaultHandler           ; GPIO Port D
         DCD     IntDefaultHandler           ; GPIO Port E
-        DCD     IntDefaultHandler           ; UART0 Rx and Tx
+        DCD     UART0_Handler	            ; UART0 Rx and Tx
         DCD     IntDefaultHandler           ; UART1 Rx and Tx
         DCD     IntDefaultHandler           ; SSI0 Rx and Tx
         DCD     IntDefaultHandler           ; I2C0 Master and Slave
@@ -421,6 +428,118 @@ Timer4B_Handler	PROC
 	STR r1,[r0, #GPTMICR]
 
 	;return to __main
+	BX LR
+	
+	ENDP
+		
+;I added the UART0 handler here
+UART0_Handler	PROC
+	EXPORT UART0_Handler
+	;Save context
+	PUSH {r4,r5,r6} ;Add more registers if you'll be using more
+	
+	;Load UARTMIS to check for conditions
+	LDR r0, =UART0
+	LDR r1,[r0, #UARTMIS]
+	
+	;Rx Time out condition
+	AND r2,r1,#(1<<6)
+	LSR r2,r2,#6
+	
+	;TxFIFO condition
+	AND r3,r1,#(1<<5)
+	LSR r3,r3,#5
+	
+	;RxFIFO condition
+	AND r4,r1,#(1<<4)
+	LSR r4,r4,#4
+	
+	;Rx Time out interrupt
+	CMP r2,#1
+	BEQ RTISR
+	
+	;TxFIFO interrupt
+	CMP r3,#1
+	BEQ TxFIFOISR
+	
+	;RxFIFO interrupt
+	CMP r4,#1
+	BEQ RxFIFOISR
+	
+	;Services the interrupt caused by a time out
+RTISR		
+	;Write a '??' character to send at time out
+	LDR r0, =UART0
+	
+	;The '?' character
+	MOV r1,#0x3F
+	MOV r2,#0x3F
+	
+	;Write '??' to UARTDR
+	STR r1,[r0, #UARTDR]
+	STR r2,[r0, #UARTDR]
+
+	;Clear RIS bit
+	LDR r0, =UART0
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#6,#1
+	ORR r1,r1,#(1<<6)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
+	BX LR
+		
+	;Services the interrupt caused by a TxFIFO
+TxFIFOISR		
+	;Write actions here
+
+	;Clear RIS bit
+	LDR r0, =UART0
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#5,#1
+	ORR r1,r1,#(1<<5)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
+	BX LR
+		
+	;Services the interrupt caused by RxFIFO
+RxFIFOISR		
+	;Read from RxFIFO via UARTDR
+	LDR r0, =UART0
+	LDR r1,[r0, #UARTDR] ;First byte
+	LDR r2,[r0, #UARTDR] ;Second byte
+	
+	;In case bits need to be reversed
+	RBIT r2, r3
+	
+	;If r2 = 'o' (lower case)
+	CMP r2,#0x6F
+	BNE RxFIFOISR_cont
+	
+	;write "high" to data register for port F pin 1 to turn on red LED. GPIODATA
+	LDR r0, =AHB_PORTB
+	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
+	LDR r2,[r1] ;Grab value of PB5 mask
+	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	STR r2,[r1]	;Store the toggled mask to properly toggle next time
+	STR r2,[r0,#GPIODATAPB5]
+
+RxFIFOISR_cont
+	;Clear RIS bit
+	LDR r0, =UART0
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#4,#1
+	ORR r1,r1,#(1<<4)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
 	BX LR
 	
 	ENDP

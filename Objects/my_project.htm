@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\my_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\my_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Tue Nov 21 16:14:19 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Nov 23 00:04:20 2017
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -12,7 +12,7 @@ Call chain for Maximum Stack Depth:</H3>
 <H3>
 Functions with no stack information
 </H3><UL>
- <LI><a href="#[8]">Reset_Handler</a>
+ <LI><a href="#[9]">Reset_Handler</a>
  <LI><a href="#[1]">NmiSR</a>
  <LI><a href="#[2]">FaultISR</a>
  <LI><a href="#[3]">IntDefaultHandler</a>
@@ -30,49 +30,54 @@ Mutually Recursive functions
 Function Pointers
 </H3><UL>
  <LI><a href="#[2]">FaultISR</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[3]">IntDefaultHandler</a> from startup_rvmdk.o(RESET) referenced 110 times from startup_rvmdk.o(RESET)
+ <LI><a href="#[3]">IntDefaultHandler</a> from startup_rvmdk.o(RESET) referenced 109 times from startup_rvmdk.o(RESET)
  <LI><a href="#[1]">NmiSR</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[8]">Reset_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
+ <LI><a href="#[9]">Reset_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
  <LI><a href="#[4]">SysTick_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[5]">Timer0A_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[6]">Timer4A_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[7]">Timer4B_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
+ <LI><a href="#[6]">Timer0A_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
+ <LI><a href="#[7]">Timer4A_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
+ <LI><a href="#[8]">Timer4B_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
+ <LI><a href="#[5]">UART0_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
 </UL>
 <P>
 <H3>
 Global Symbols
 </H3>
-<P><STRONG><a name="[8]"></a>Reset_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_rvmdk.o(RESET))
-<BR><BR>[Calls]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[9]"></a>Reset_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_rvmdk.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
 <P><STRONG><a name="[4]"></a>SysTick_Handler</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[5]"></a>Timer0A_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
+<P><STRONG><a name="[6]"></a>Timer0A_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[6]"></a>Timer4A_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
+<P><STRONG><a name="[7]"></a>Timer4A_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[7]"></a>Timer4B_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
+<P><STRONG><a name="[8]"></a>Timer4B_Handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[e]"></a>__main</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER_Init
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCGC_Init
-<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Priority
-<LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<P><STRONG><a name="[5]"></a>UART0_Handler</STRONG> (Thumb, 140 bytes, Stack size 0 bytes, startup_rvmdk.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+<P><STRONG><a name="[a]"></a>__main</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, main.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCGC_Init
+<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_UART
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Priority
+<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
-<P><STRONG><a name="[f]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[11]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[10]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[12]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[11]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[13]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 <P>
 <H3>
 Local Symbols
@@ -98,24 +103,28 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[9]"></a>NVIC_Init</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[f]"></a>NVIC_Init</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[a]"></a>NVIC_Priority</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[e]"></a>NVIC_Priority</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[b]"></a>GPIO_Init</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[c]"></a>GPIO_Init</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[c]"></a>RCGC_Init</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[d]"></a>GPIO_UART</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[d]"></a>TIMER_Init</STRONG> (Thumb, 132 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[b]"></a>RCGC_Init</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[10]"></a>UART_Init</STRONG> (Thumb, 136 bytes, Stack size 0 bytes, main.o(My_Subroutines))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 <P>
 <H3>
