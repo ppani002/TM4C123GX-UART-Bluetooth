@@ -566,10 +566,6 @@ UART1_Handler	PROC
 	AND r4,r1,#(1<<4)
 	LSR r4,r4,#4
 	
-	;Rx Time out interrupt
-	CMP r2,#1
-	BEQ RTISR1
-	
 	;TxFIFO interrupt
 	CMP r3,#1
 	BEQ TxFIFOISR1
@@ -577,6 +573,10 @@ UART1_Handler	PROC
 	;RxFIFO interrupt
 	CMP r4,#1
 	BEQ RxFIFOISR1
+	
+	;Rx Time out interrupt
+	CMP r2,#1
+	BEQ RTISR1
 	
 	;Services the interrupt caused by a time out
 RTISR1	
@@ -626,9 +626,10 @@ RxFIFOISR1
 	LDR r1,[r0, #UARTDR] ;First byte (plus 4 bits of flags)
 	LDR r2,[r0, #UARTDR] ;Second byte (plus 4 bits of flags)
 	
+	;This is not necessary. Bits come in in the correct position
 	;In case bits need to be reversed
-	RBIT r3,r1
-	RBIT r4,r2
+	;RBIT r3,r1
+	;RBIT r4,r2
 	
 	;Clear 4 bit flags
 	BFC r3,#8,#4

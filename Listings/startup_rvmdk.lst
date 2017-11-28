@@ -676,7 +676,7 @@ ARM Macro Assembler    Page 11
   283 0000027C         
   284 0000027C         
   285 0000027C         ;Setting up RAM myself here
-  286 0000027C 4A6B            LDR              r2, =PB5_MASK ;get RAM address 
+  286 0000027C 4A69            LDR              r2, =PB5_MASK ;get RAM address 
                                                             of PB5 mask (pointe
                                                             r)
   287 0000027E 6813            LDR              r3,[r2]     ;get the value of P
@@ -748,8 +748,8 @@ ARM Macro Assembler    Page 12
   331 00000292         
   332 00000292         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  333 00000292 4867            LDR              r0, =AHB_PORTB
-  334 00000294 4965            LDR              r1, =PB5_MASK ;Get RAM address 
+  333 00000292 4865            LDR              r0, =AHB_PORTB
+  334 00000294 4963            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
   335 00000296 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
@@ -787,8 +787,8 @@ ARM Macro Assembler    Page 13
   356 000002A6         
   357 000002A6         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  358 000002A6 4862            LDR              r0, =AHB_PORTB
-  359 000002A8 4960            LDR              r1, =PB5_MASK ;Get RAM address 
+  358 000002A6 4860            LDR              r0, =AHB_PORTB
+  359 000002A8 495E            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
   360 000002AA 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
@@ -803,7 +803,7 @@ ARM Macro Assembler    Page 13
   365 000002B6         
   366 000002B6         
   367 000002B6         ;Clear RIS bit
-  368 000002B6 485F            LDR              r0, =TIMER16_0
+  368 000002B6 485D            LDR              r0, =TIMER16_0
   369 000002B8 6A41            LDR              r1,[r0, #GPTMICR]
   370 000002BA         
   371 000002BA F36F 0100       BFC              r1,#0,#1
@@ -822,8 +822,8 @@ ARM Macro Assembler    Page 13
   383 000002C6         
   384 000002C6         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  385 000002C6 485A            LDR              r0, =AHB_PORTB
-  386 000002C8 4958            LDR              r1, =PB5_MASK ;Get RAM address 
+  385 000002C6 4858            LDR              r0, =AHB_PORTB
+  386 000002C8 4956            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
   387 000002CA 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
@@ -838,7 +838,7 @@ ARM Macro Assembler    Page 13
   392 000002D6         
   393 000002D6         
   394 000002D6         ;Clear RIS bit
-  395 000002D6 4858            LDR              r0, =SYS_CONTROL
+  395 000002D6 4856            LDR              r0, =SYS_CONTROL
   396 000002D8 6A41            LDR              r1,[r0, #GPTMICR]
   397 000002DA         
   398 000002DA F36F 0100       BFC              r1,#0,#1
@@ -863,8 +863,8 @@ ARM Macro Assembler    Page 14
   410 000002E6         
   411 000002E6         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  412 000002E6 4852            LDR              r0, =AHB_PORTB
-  413 000002E8 4950            LDR              r1, =PB5_MASK ;Get RAM address 
+  412 000002E6 4850            LDR              r0, =AHB_PORTB
+  413 000002E8 494E            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
   414 000002EA 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
@@ -879,7 +879,7 @@ ARM Macro Assembler    Page 14
   419 000002F6         
   420 000002F6         
   421 000002F6         ;Clear RIS bit
-  422 000002F6 4850            LDR              r0, =SYS_CONTROL
+  422 000002F6 484E            LDR              r0, =SYS_CONTROL
   423 000002F8 6A41            LDR              r1,[r0, #GPTMICR]
   424 000002FA         
   425 000002FA F36F 0100       BFC              r1,#0,#1
@@ -902,7 +902,7 @@ ARM Macro Assembler    Page 14
                                                              more
   440 00000308         
   441 00000308         ;Load UARTMIS to check for conditions
-  442 00000308 484C            LDR              r0, =UART0
+  442 00000308 484A            LDR              r0, =UART0
   443 0000030A 6C01            LDR              r1,[r0, #UARTMIS]
   444 0000030C         
   445 0000030C         ;Rx Time out condition
@@ -938,7 +938,7 @@ ARM Macro Assembler    Page 15
   469 00000330         ;Services the interrupt caused by a time out
   470 00000330         RTISR0
   471 00000330         ;Write a '??' character to send at time out
-  472 00000330 4842            LDR              r0, =UART0
+  472 00000330 4840            LDR              r0, =UART0
   473 00000332         
   474 00000332         ;The '?' character
   475 00000332 F04F 013F       MOV              r1,#0x3F
@@ -949,7 +949,7 @@ ARM Macro Assembler    Page 15
   480 0000033C 6002            STR              r2,[r0, #UARTDR]
   481 0000033E         
   482 0000033E         ;Clear RIS bit
-  483 0000033E 483F            LDR              r0, =UART0
+  483 0000033E 483D            LDR              r0, =UART0
   484 00000340 6C41            LDR              r1,[r0, #UARTICR]
   485 00000342 F36F 1186       BFC              r1,#6,#1
   486 00000346 F041 0140       ORR              r1,r1,#(1<<6)
@@ -967,7 +967,7 @@ ARM Macro Assembler    Page 15
   496 00000350         ;Write actions here
   497 00000350         
   498 00000350         ;Clear RIS bit
-  499 00000350 483A            LDR              r0, =UART0
+  499 00000350 4838            LDR              r0, =UART0
   500 00000352 6C41            LDR              r1,[r0, #UARTICR]
   501 00000354 F36F 1145       BFC              r1,#5,#1
   502 00000358 F041 0120       ORR              r1,r1,#(1<<5)
@@ -989,7 +989,7 @@ ARM Macro Assembler    Page 16
   510 00000362         ;Services the interrupt caused by RxFIFO
   511 00000362         RxFIFOISR0
   512 00000362         ;Read from RxFIFO via UARTDR
-  513 00000362 4836            LDR              r0, =UART0
+  513 00000362 4834            LDR              r0, =UART0
   514 00000364 6801            LDR              r1,[r0, #UARTDR] ;First byte
   515 00000366 6802            LDR              r2,[r0, #UARTDR] ;Second byte
   516 00000368         
@@ -1002,8 +1002,8 @@ ARM Macro Assembler    Page 16
   523 00000370         
   524 00000370         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  525 00000370 482F            LDR              r0, =AHB_PORTB
-  526 00000372 492E            LDR              r1, =PB5_MASK ;Get RAM address 
+  525 00000370 482D            LDR              r0, =AHB_PORTB
+  526 00000372 492C            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
   527 00000374 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
@@ -1017,7 +1017,7 @@ ARM Macro Assembler    Page 16
   531 00000380         
   532 00000380         RxFIFOISR0_cont
   533 00000380         ;Clear RIS bit
-  534 00000380 482E            LDR              r0, =UART0
+  534 00000380 482C            LDR              r0, =UART0
   535 00000382 6C41            LDR              r1,[r0, #UARTICR]
   536 00000384 F36F 1104       BFC              r1,#4,#1
   537 00000388 F041 0110       ORR              r1,r1,#(1<<4)
@@ -1048,7 +1048,7 @@ ARM Macro Assembler    Page 17
                                                              more
   552 00000394         
   553 00000394         ;Load UARTMIS to check for conditions
-  554 00000394 482A            LDR              r0, =UART1
+  554 00000394 4828            LDR              r0, =UART1
   555 00000396 6C01            LDR              r1,[r0, #UARTMIS]
   556 00000398         
   557 00000398         ;Rx Time out condition
@@ -1063,22 +1063,22 @@ ARM Macro Assembler    Page 17
   566 000003A8 F001 0410       AND              r4,r1,#(1<<4)
   567 000003AC EA4F 1414       LSR              r4,r4,#4
   568 000003B0         
-  569 000003B0         ;Rx Time out interrupt
-  570 000003B0 2A01            CMP              r2,#1
-  571 000003B2 D003            BEQ              RTISR1
+  569 000003B0         ;TxFIFO interrupt
+  570 000003B0 2B01            CMP              r3,#1
+  571 000003B2 D013            BEQ              TxFIFOISR1
   572 000003B4         
-  573 000003B4         ;TxFIFO interrupt
-  574 000003B4 2B01            CMP              r3,#1
-  575 000003B6 D011            BEQ              TxFIFOISR1
+  573 000003B4         ;RxFIFO interrupt
+  574 000003B4 2C01            CMP              r4,#1
+  575 000003B6 D01A            BEQ              RxFIFOISR1
   576 000003B8         
-  577 000003B8         ;RxFIFO interrupt
-  578 000003B8 2C01            CMP              r4,#1
-  579 000003BA D018            BEQ              RxFIFOISR1
+  577 000003B8         ;Rx Time out interrupt
+  578 000003B8 2A01            CMP              r2,#1
+  579 000003BA D0FF            BEQ              RTISR1
   580 000003BC         
   581 000003BC         ;Services the interrupt caused by a time out
   582 000003BC         RTISR1
   583 000003BC         ;Write a '??' character to send at time out
-  584 000003BC 4820            LDR              r0, =UART1
+  584 000003BC 481E            LDR              r0, =UART1
   585 000003BE         
   586 000003BE         ;The '?' character
   587 000003BE F04F 013F       MOV              r1,#0x3F
@@ -1089,7 +1089,7 @@ ARM Macro Assembler    Page 17
   592 000003C8 6002            STR              r2,[r0, #UARTDR]
   593 000003CA         
   594 000003CA         ;Clear RIS bit
-  595 000003CA 481D            LDR              r0, =UART1
+  595 000003CA 481B            LDR              r0, =UART1
   596 000003CC 6C41            LDR              r1,[r0, #UARTICR]
   597 000003CE F36F 1186       BFC              r1,#6,#1
   598 000003D2 F041 0140       ORR              r1,r1,#(1<<6)
@@ -1113,7 +1113,7 @@ ARM Macro Assembler    Page 18
   608 000003DC         ;Write actions here
   609 000003DC         
   610 000003DC         ;Clear RIS bit
-  611 000003DC 4818            LDR              r0, =UART1
+  611 000003DC 4816            LDR              r0, =UART1
   612 000003DE 6C41            LDR              r1,[r0, #UARTICR]
   613 000003E0 F36F 1145       BFC              r1,#5,#1
   614 000003E4 F041 0120       ORR              r1,r1,#(1<<5)
@@ -1129,7 +1129,7 @@ ARM Macro Assembler    Page 18
   622 000003EE         ;Services the interrupt caused by RxFIFO
   623 000003EE         RxFIFOISR1
   624 000003EE         ;Read from RxFIFO via UARTDR
-  625 000003EE 4814            LDR              r0, =UART1
+  625 000003EE 4812            LDR              r0, =UART1
   626 000003F0 6801            LDR              r1,[r0, #UARTDR] ;First byte (p
                                                             lus 4 bits of flags
                                                             )
@@ -1137,131 +1137,133 @@ ARM Macro Assembler    Page 18
                                                             plus 4 bits of flag
                                                             s)
   628 000003F4         
-  629 000003F4         ;In case bits need to be reversed
-  630 000003F4 FA91 F3A1       RBIT             r3,r1
-  631 000003F8 FA92 F4A2       RBIT             r4,r2
-  632 000003FC         
-  633 000003FC         ;Clear 4 bit flags
-  634 000003FC F36F 230B       BFC              r3,#8,#4
-  635 00000400 F36F 240B       BFC              r4,#8,#4
-  636 00000404         
-  637 00000404         ;If r3 = 'o' (lower case)
-  638 00000404 2B6F            CMP              r3,#0x6F
-  639 00000406 D107            BNE              RxFIFOISR_cont1
-  640 00000408         
-  641 00000408         ;write "high" to data register for port F pin 1 to turn 
+  629 000003F4         ;This is not necessary. Bits come in in the correct posi
+                       tion
+  630 000003F4         ;In case bits need to be reversed
+  631 000003F4         ;RBIT r3,r1
+  632 000003F4         ;RBIT r4,r2
+  633 000003F4         
+  634 000003F4         ;Clear 4 bit flags
+  635 000003F4 F36F 230B       BFC              r3,#8,#4
+  636 000003F8 F36F 240B       BFC              r4,#8,#4
+  637 000003FC         
+  638 000003FC         ;If r3 = 'o' (lower case)
+  639 000003FC 2B6F            CMP              r3,#0x6F
+  640 000003FE D107            BNE              RxFIFOISR_cont1
+  641 00000400         
+  642 00000400         ;write "high" to data register for port F pin 1 to turn 
                        on red LED. GPIODATA
-  642 00000408 4809            LDR              r0, =AHB_PORTB
-  643 0000040A 4908            LDR              r1, =PB5_MASK ;Get RAM address 
+  643 00000400 4809            LDR              r0, =AHB_PORTB
+  644 00000402 4908            LDR              r1, =PB5_MASK ;Get RAM address 
                                                             of PB5 mask value
-  644 0000040C 680A            LDR              r2,[r1]     ;Grab value of PB5 
+  645 00000404 680A            LDR              r2,[r1]     ;Grab value of PB5 
                                                             mask
-  645 0000040E F082 0220       EOR              r2, r2, #GPIOP5 ;#0x20;#0xF0 ;T
+  646 00000406 F082 0220       EOR              r2, r2, #GPIOP5 ;#0x20;#0xF0 ;T
                                                             oggle mas to toggle
                                                              PB5
-  646 00000412 600A            STR              r2,[r1]     ;Store the toggled 
+  647 0000040A 600A            STR              r2,[r1]     ;Store the toggled 
                                                             mask to properly to
                                                             ggle next time
-  647 00000414 F8C0 2080       STR              r2,[r0,#GPIODATAPB5]
-  648 00000418         
-  649 00000418         RxFIFOISR_cont1
-  650 00000418         ;Clear RIS bit
-  651 00000418 4809            LDR              r0, =UART1
-  652 0000041A 6C41            LDR              r1,[r0, #UARTICR]
+  648 0000040C F8C0 2080       STR              r2,[r0,#GPIODATAPB5]
+  649 00000410         
+  650 00000410         RxFIFOISR_cont1
+  651 00000410         ;Clear RIS bit
 
 
 
 ARM Macro Assembler    Page 19 
 
 
-  653 0000041C F36F 1104       BFC              r1,#4,#1
-  654 00000420 F041 0110       ORR              r1,r1,#(1<<4)
-  655 00000424 6441            STR              r1,[r0, #UARTICR]
-  656 00000426         
-  657 00000426         ;Restore context
-  658 00000426 BC70            POP              {r4,r5,r6}  ;Add more registers
+  652 00000410 4809            LDR              r0, =UART1
+  653 00000412 6C41            LDR              r1,[r0, #UARTICR]
+  654 00000414 F36F 1104       BFC              r1,#4,#1
+  655 00000418 F041 0110       ORR              r1,r1,#(1<<4)
+  656 0000041C 6441            STR              r1,[r0, #UARTICR]
+  657 0000041E         
+  658 0000041E         ;Restore context
+  659 0000041E BC70            POP              {r4,r5,r6}  ;Add more registers
                                                              if you'll be using
                                                              more
-  659 00000428         
-  660 00000428 4770            BX               LR
-  661 0000042A         
-  662 0000042A                 ENDP
-  663 0000042A         
-  664 0000042A         
-  665 0000042A         
-  666 0000042A         
-  667 0000042A         
-  668 0000042A         ;*******************************************************
+  660 00000420         
+  661 00000420 4770            BX               LR
+  662 00000422         
+  663 00000422                 ENDP
+  664 00000422         
+  665 00000422         
+  666 00000422         
+  667 00000422         
+  668 00000422         
+  669 00000422         ;*******************************************************
                        ***********************
-  669 0000042A         ;
-  670 0000042A         ; Make sure the end of this section is aligned.
-  671 0000042A         ;
-  672 0000042A         ;*******************************************************
+  670 00000422         ;
+  671 00000422         ; Make sure the end of this section is aligned.
+  672 00000422         ;
+  673 00000422         ;*******************************************************
                        ***********************
-  673 0000042A 00 00           ALIGN
-  674 0000042C         
-  675 0000042C         ;*******************************************************
+  674 00000422 00 00           ALIGN
+  675 00000424         
+  676 00000424         ;*******************************************************
                        ***********************
-  676 0000042C         ;
-  677 0000042C         ; Some code in the normal code section for initializing 
+  677 00000424         ;
+  678 00000424         ; Some code in the normal code section for initializing 
                        the heap and stack.
-  678 0000042C         ;
-  679 0000042C         ;*******************************************************
+  679 00000424         ;
+  680 00000424         ;*******************************************************
                        ***********************
-  680 0000042C 00000000 
+  681 00000424 00000000 
               40059000 
               40030000 
               400FE000 
               4000C000 
               4000D000         AREA             |.text|, CODE, READONLY
-  681 00000000         
-  682 00000000         ;*******************************************************
+  682 00000000         
+  683 00000000         ;*******************************************************
                        ***********************
-  683 00000000         ;
-  684 00000000         ; The function expected of the C library startup code fo
+  684 00000000         ;
+  685 00000000         ; The function expected of the C library startup code fo
                        r defining the stack
-  685 00000000         ; and heap memory locations.  For the C library version 
+  686 00000000         ; and heap memory locations.  For the C library version 
                        of the startup code,
-  686 00000000         ; provide this function so that the C library initializa
+  687 00000000         ; provide this function so that the C library initializa
                        tion code can find out
-  687 00000000         ; the location of the stack and heap.
-  688 00000000         ;
-  689 00000000         ;*******************************************************
+  688 00000000         ; the location of the stack and heap.
+  689 00000000         ;
+  690 00000000         ;*******************************************************
                        ***********************
-  690 00000000                 IF               :DEF: __MICROLIB
-  695 00000000                 IMPORT           __use_two_region_memory
-  696 00000000                 EXPORT           __user_initial_stackheap
-  697 00000000         __user_initial_stackheap
-  698 00000000 4802            LDR              R0, =HeapMem
+  691 00000000                 IF               :DEF: __MICROLIB
+  696 00000000                 IMPORT           __use_two_region_memory
+  697 00000000                 EXPORT           __user_initial_stackheap
 
 
 
 ARM Macro Assembler    Page 20 
 
 
-  699 00000002 4903            LDR              R1, =(StackMem + Stack)
-  700 00000004 4A01            LDR              R2, =(HeapMem + Heap)
-  701 00000006 4B03            LDR              R3, =StackMem
-  702 00000008 4770            BX               LR
-  703 0000000A                 ENDIF
-  704 0000000A         
-  705 0000000A         ;*******************************************************
+  698 00000000         __user_initial_stackheap
+  699 00000000 4802            LDR              R0, =HeapMem
+  700 00000002 4903            LDR              R1, =(StackMem + Stack)
+  701 00000004 4A01            LDR              R2, =(HeapMem + Heap)
+  702 00000006 4B03            LDR              R3, =StackMem
+  703 00000008 4770            BX               LR
+  704 0000000A                 ENDIF
+  705 0000000A         
+  706 0000000A         ;*******************************************************
                        ***********************
-  706 0000000A         ;
-  707 0000000A         ; Make sure the end of this section is aligned.
-  708 0000000A         ;
-  709 0000000A         ;*******************************************************
+  707 0000000A         ;
+  708 0000000A         ; Make sure the end of this section is aligned.
+  709 0000000A         ;
+  710 0000000A         ;*******************************************************
                        ***********************
-  710 0000000A 00 00           ALIGN
-  711 0000000C         
-  712 0000000C         ;*******************************************************
+  711 0000000A 00 00           ALIGN
+  712 0000000C         
+  713 0000000C         ;*******************************************************
                        ***********************
-  713 0000000C         ;
-  714 0000000C         ; Tell the assembler that we're done.
-  715 0000000C         ;
-  716 0000000C         ;*******************************************************
+  714 0000000C         ;
+  715 0000000C         ; Tell the assembler that we're done.
+  716 0000000C         ;
+  717 0000000C         ;*******************************************************
                        ***********************
-  717 0000000C                 END
+  718 0000000C                 END
               00000000 
               00000200 
               00000000 
@@ -1308,8 +1310,8 @@ Symbol: StackMem
       At line 60 in file startup_rvmdk.S
    Uses
       At line 97 in file startup_rvmdk.S
-      At line 699 in file startup_rvmdk.S
-      At line 701 in file startup_rvmdk.S
+      At line 700 in file startup_rvmdk.S
+      At line 702 in file startup_rvmdk.S
 
 __initial_sp 00000200
 
@@ -1340,8 +1342,8 @@ Symbol: HeapMem
    Definitions
       At line 71 in file startup_rvmdk.S
    Uses
-      At line 698 in file startup_rvmdk.S
-      At line 700 in file startup_rvmdk.S
+      At line 699 in file startup_rvmdk.S
+      At line 701 in file startup_rvmdk.S
 
 __heap_base 00000000
 
@@ -1534,7 +1536,7 @@ Symbol: RTISR1
    Definitions
       At line 582 in file startup_rvmdk.S
    Uses
-      At line 571 in file startup_rvmdk.S
+      At line 579 in file startup_rvmdk.S
 Comment: RTISR1 used once
 Reset_Handler 0000026C
 
@@ -1573,15 +1575,15 @@ Symbol: RxFIFOISR1
    Definitions
       At line 623 in file startup_rvmdk.S
    Uses
-      At line 579 in file startup_rvmdk.S
+      At line 575 in file startup_rvmdk.S
 Comment: RxFIFOISR1 used once
-RxFIFOISR_cont1 00000418
+RxFIFOISR_cont1 00000410
 
 Symbol: RxFIFOISR_cont1
    Definitions
-      At line 649 in file startup_rvmdk.S
+      At line 650 in file startup_rvmdk.S
    Uses
-      At line 639 in file startup_rvmdk.S
+      At line 640 in file startup_rvmdk.S
 Comment: RxFIFOISR_cont1 used once
 SysTick_Handler 00000292
 
@@ -1639,7 +1641,7 @@ Symbol: TxFIFOISR1
    Definitions
       At line 607 in file startup_rvmdk.S
    Uses
-      At line 575 in file startup_rvmdk.S
+      At line 571 in file startup_rvmdk.S
 Comment: TxFIFOISR1 used once
 UART0_Handler 00000306
 
@@ -1678,7 +1680,7 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 680 in file startup_rvmdk.S
+      At line 681 in file startup_rvmdk.S
    Uses
       None
 Comment: .text unused
@@ -1686,9 +1688,9 @@ __user_initial_stackheap 00000000
 
 Symbol: __user_initial_stackheap
    Definitions
-      At line 697 in file startup_rvmdk.S
+      At line 698 in file startup_rvmdk.S
    Uses
-      At line 696 in file startup_rvmdk.S
+      At line 697 in file startup_rvmdk.S
 Comment: __user_initial_stackheap used once
 2 symbols
 
@@ -1716,7 +1718,7 @@ Symbol: AHB_PORTB
       At line 385 in file startup_rvmdk.S
       At line 412 in file startup_rvmdk.S
       At line 525 in file startup_rvmdk.S
-      At line 642 in file startup_rvmdk.S
+      At line 643 in file startup_rvmdk.S
 
 FAIL 00000000
 
@@ -1753,7 +1755,7 @@ Symbol: GPIODATAPB5
       At line 390 in file startup_rvmdk.S
       At line 417 in file startup_rvmdk.S
       At line 530 in file startup_rvmdk.S
-      At line 647 in file startup_rvmdk.S
+      At line 648 in file startup_rvmdk.S
 
 GPIODEN 0000051C
 
@@ -1804,7 +1806,7 @@ Symbol: GPIOP5
       At line 388 in file startup_rvmdk.S
       At line 415 in file startup_rvmdk.S
       At line 528 in file startup_rvmdk.S
-      At line 645 in file startup_rvmdk.S
+      At line 646 in file startup_rvmdk.S
 
 GPIOPCTL 0000052C
 
@@ -1980,7 +1982,7 @@ Symbol: Heap
       At line 38 in file startup_rvmdk.S
    Uses
       At line 72 in file startup_rvmdk.S
-      At line 700 in file startup_rvmdk.S
+      At line 701 in file startup_rvmdk.S
 
 NVIC_DISn 00000180
 
@@ -2115,7 +2117,7 @@ Symbol: Stack
    Uses
       At line 61 in file startup_rvmdk.S
       At line 97 in file startup_rvmdk.S
-      At line 699 in file startup_rvmdk.S
+      At line 700 in file startup_rvmdk.S
 
 TIMER16_0 40030000
 
@@ -2163,7 +2165,7 @@ Symbol: UART1
       At line 595 in file startup_rvmdk.S
       At line 611 in file startup_rvmdk.S
       At line 625 in file startup_rvmdk.S
-      At line 651 in file startup_rvmdk.S
+      At line 652 in file startup_rvmdk.S
 
 UARTCC 00000FC8
 
@@ -2242,8 +2244,8 @@ Symbol: UARTICR
       At line 599 in file startup_rvmdk.S
       At line 612 in file startup_rvmdk.S
       At line 615 in file startup_rvmdk.S
-      At line 652 in file startup_rvmdk.S
-      At line 655 in file startup_rvmdk.S
+      At line 653 in file startup_rvmdk.S
+      At line 656 in file startup_rvmdk.S
 
 UARTIFLS 00000034
 
@@ -2319,7 +2321,7 @@ Symbol: PB5_MASK
       At line 386 in file startup_rvmdk.S
       At line 413 in file startup_rvmdk.S
       At line 526 in file startup_rvmdk.S
-      At line 643 in file startup_rvmdk.S
+      At line 644 in file startup_rvmdk.S
 
 __main 00000000
 
@@ -2333,7 +2335,7 @@ __use_two_region_memory 00000000
 
 Symbol: __use_two_region_memory
    Definitions
-      At line 695 in file startup_rvmdk.S
+      At line 696 in file startup_rvmdk.S
    Uses
       None
 Comment: __use_two_region_memory unused

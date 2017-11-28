@@ -10,27 +10,44 @@
 	
 __main	PROC
 	
-	;Setup clocks for GPIO and GPTM at run-time
+	;Setup clocks for GPIO, GPTM, and UART at run-time
 	BL RCGC_Init
 	
 	;Setup GPIO first
 	BL GPIO_Init
 	
-	;Setup GPIO PA0&PA1 for UART
+	;Setup GPIO PB0&PB1 for UART1
 	BL GPIO_UART1
 	
-	;Setup priority level for UART0
-	MOV r0, #6; UART0 is IRQn = 19
+	;Setup priority level for UART1
+	MOV r0, #6; UART1 is IRQn = 6
 	MOV r1, #1 ;priority #1
 	BL NVIC_Priority
 	
-	;Enable UART0 interrupt
-	MOV r0, #6; UART0 is IRQn = 19
+	;Enable UART1 interrupt
+	MOV r0, #6; UART1 is IRQn = 6
 	MOV r1, #1; r1 = 1: Enable
 	BL NVIC_Init
 	
 	;Setup UART
 	BL UART_Init
+	
+	
+	
+	;Writing data to UARTDR for debugging
+	;Write a '??' character to send at time out
+	LDR r0, =UART1
+	
+	;The '?' character
+	MOV r1,#0x3F
+	MOV r2,#0x3F
+	
+	;Write '??' to UARTDR
+	STR r1,[r0, #UARTDR]
+	;STR r2,[r0, #UARTDR]
+	
+	
+
 	
 	
 while

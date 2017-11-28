@@ -314,7 +314,7 @@ ARM Macro Assembler    Page 5
    92 00000070 B500            PUSH             {LR}
    93 00000072         
    94 00000072         ;select AHB. GPIOHBCTL
-   95 00000072 48D1            LDR              r0, =SYS_CONTROL
+   95 00000072 48D2            LDR              r0, =SYS_CONTROL
    96 00000074 6EC1            LDR              r1,[r0, #GPIOHBCTL]
    97 00000076 F041 0102       ORR              r1, r1, #(1<<1) ;Enable port B 
                                                             AHB instead. "Note 
@@ -330,32 +330,32 @@ ARM Macro Assembler    Page 6
 
 
   100 0000007C         ;set to output. GPIODIR
-  101 0000007C 48CF            LDR              r0, =AHB_PORTB
+  101 0000007C 48D0            LDR              r0, =AHB_PORTB
   102 0000007E F8D0 1400       LDR              r1,[r0,#GPIODIR]
   103 00000082 F041 0120       ORR              r1, r1, #(1<<5) ;pin5
   104 00000086 F8C0 1400       STR              r1,[r0,#GPIODIR]
   105 0000008A         
   106 0000008A         ;set mode to GPIO (nor alternate function). GPIOAFSEL
-  107 0000008A 48CC            LDR              r0, =AHB_PORTB
+  107 0000008A 48CD            LDR              r0, =AHB_PORTB
   108 0000008C F8D0 1420       LDR              r1,[r0,#GPIOAFSEL]
   109 00000090 F36F 0107       BFC              r1,#0,#8    ;clears fields. 0 =
                                                              GPIO
   110 00000094 F8C0 1420       STR              r1,[r0,#GPIOAFSEL]
   111 00000098         
   112 00000098         ;to drive strength to 2mA. GPIODR2R
-  113 00000098 48C8            LDR              r0, =AHB_PORTB
+  113 00000098 48C9            LDR              r0, =AHB_PORTB
   114 0000009A F8D0 1500       LDR              r1,[r0,#GPIODR2R]
   115 0000009E F041 0120       ORR              r1, r1, #(1<<5) ;pin5
   116 000000A2 F8C0 1500       STR              r1,[r0,#GPIODR2R]
   117 000000A6         
   118 000000A6         ;set to pull up. GPIOPUR
-  119 000000A6 48C5            LDR              r0, =AHB_PORTB
+  119 000000A6 48C6            LDR              r0, =AHB_PORTB
   120 000000A8 F8D0 1510       LDR              r1,[r0,#GPIOPUR]
   121 000000AC F041 0120       ORR              r1, r1, #(1<<5) ;pin5
   122 000000B0 F8C0 1510       STR              r1,[r0,#GPIOPUR]
   123 000000B4         
   124 000000B4         ;enable digital output. GPIODEN
-  125 000000B4 48C1            LDR              r0, =AHB_PORTB
+  125 000000B4 48C2            LDR              r0, =AHB_PORTB
   126 000000B6 F8D0 151C       LDR              r1,[r0,#GPIODEN]
   127 000000BA F041 0120       ORR              r1,r1, #(1<<5) ;pin 1 = digital
                                                              output enable
@@ -363,9 +363,9 @@ ARM Macro Assembler    Page 6
   129 000000C2         
   130 000000C2         ;write "high" to data register for port B pin 5 to turn 
                        on red LED. GPIODATA
-  131 000000C2 48BE            LDR              r0, =AHB_PORTB
+  131 000000C2 48BF            LDR              r0, =AHB_PORTB
   132 000000C4 F8D0 1080       LDR              r1,[r0,#GPIODATAPB5]
-  133 000000C8 4ABD            LDR              r2, =PB5_MASK ;get RAM address 
+  133 000000C8 4ABE            LDR              r2, =PB5_MASK ;get RAM address 
                                                             of PB5 mask (pointe
                                                             r)
   134 000000CA 6813            LDR              r3,[r2]     ;get the value of P
@@ -387,7 +387,7 @@ ARM Macro Assembler    Page 6
   147 000000DA B500            PUSH             {LR}
   148 000000DC         
   149 000000DC         ;set to output. GPIODIR
-  150 000000DC 48B7            LDR              r0, =AHB_PORTB
+  150 000000DC 48B8            LDR              r0, =AHB_PORTB
 
 
 
@@ -400,28 +400,28 @@ ARM Macro Assembler    Page 7
   154 000000EA F8C0 1400       STR              r1,[r0,#GPIODIR]
   155 000000EE         
   156 000000EE         ;set mode to GPIO (nor alternate function). GPIOAFSEL
-  157 000000EE 48B3            LDR              r0, =AHB_PORTB
+  157 000000EE 48B4            LDR              r0, =AHB_PORTB
   158 000000F0 F8D0 1420       LDR              r1,[r0, #GPIOAFSEL]
   159 000000F4 F041 0101       ORR              r1, r1, #1  ;PB0: AF
   160 000000F8 F041 0102       ORR              r1, r1, #(1<<1) ;PB1: AF
   161 000000FC F8C0 1420       STR              r1,[r0, #GPIOAFSEL]
   162 00000100         
   163 00000100         ;Select UART for AF
-  164 00000100 48AE            LDR              r0, =AHB_PORTB
+  164 00000100 48AF            LDR              r0, =AHB_PORTB
   165 00000102 F8D0 152C       LDR              r1,[r0, #GPIOPCTL]
   166 00000106 F041 0101       ORR              r1, r1, #0x1 ;PB0: UART
   167 0000010A F041 0110       ORR              r1, r1, #(0x1<<4) ;PB1: UART
   168 0000010E F8C0 152C       STR              r1,[r0, #GPIOPCTL]
   169 00000112         
   170 00000112         ;to drive strength to 2mA. GPIODR2R
-  171 00000112 48AA            LDR              r0, =AHB_PORTB
+  171 00000112 48AB            LDR              r0, =AHB_PORTB
   172 00000114 F8D0 1500       LDR              r1,[r0,#GPIODR2R]
   173 00000118 F041 0101       ORR              r1, r1, #1  ;PB0: 2mA
   174 0000011C F041 0102       ORR              r1, r1, #(1<<1) ;PB1: 2mA
   175 00000120 F8C0 1500       STR              r1,[r0,#GPIODR2R]
   176 00000124         
   177 00000124         ;enable digital output. GPIODEN
-  178 00000124 48A5            LDR              r0, =AHB_PORTB
+  178 00000124 48A6            LDR              r0, =AHB_PORTB
   179 00000126 F8D0 151C       LDR              r1,[r0,#GPIODEN]
   180 0000012A F041 0101       ORR              r1, r1, #1  ;PB0: Digital I/O
   181 0000012E F041 0102       ORR              r1, r1, #(1<<1) 
@@ -442,7 +442,7 @@ ARM Macro Assembler    Page 7
   194 0000013C B500            PUSH             {LR}
   195 0000013E         
   196 0000013E         ;Initialize Timer0 for run-time via RCGC
-  197 0000013E 489E            LDR              r0, =SYS_CONTROL
+  197 0000013E 489F            LDR              r0, =SYS_CONTROL
   198 00000140 F8D0 1604       LDR              r1,[r0, #RCGCTIMER]
   199 00000144 F36F 0105       BFC              r1,#0,#6    ;clear fields [5:0]
                                                             
@@ -459,14 +459,14 @@ ARM Macro Assembler    Page 7
 ARM Macro Assembler    Page 8 
 
 
-  206 00000150 4899            LDR              r0, =SYS_CONTROL
+  206 00000150 489A            LDR              r0, =SYS_CONTROL
   207 00000152 F8D0 1608       LDR              r1,[r0,#RCGCGPIO]
   208 00000156 F041 0102       ORR              r1, r1, #(1<<1) ;enable port B 
                                                             clock(bit 5)
   209 0000015A F8C0 1608       STR              r1,[r0,#RCGCGPIO]
   210 0000015E         
   211 0000015E         ;Initialize UART for run-time via RCGC
-  212 0000015E 4896            LDR              r0, =SYS_CONTROL
+  212 0000015E 4897            LDR              r0, =SYS_CONTROL
   213 00000160 F8D0 1618       LDR              r1,[r0, #RCGCUART]
   214 00000164 F041 0102       ORR              r1,r1,#(1<<1) ;bit 1 (UART1), n
                                                             ot bit 0 (UART0)
@@ -557,14 +557,14 @@ ARM Macro Assembler    Page 9
   286 000001D4 B500            PUSH             {LR}
   287 000001D6         
   288 000001D6         ;Disable Timer0A
-  289 000001D6 497B            LDR              r1, =TIMER16_0
+  289 000001D6 497C            LDR              r1, =TIMER16_0
   290 000001D8 68CA            LDR              r2,[r1, #GPTMCTL]
   291 000001DA F36F 0200       BFC              r2,#0,#1    ;clear TAEN to disa
                                                             ble Timer0A
   292 000001DE 60CA            STR              r2,[r1, #GPTMCTL]
   293 000001E0         
   294 000001E0         ;Concatanate withh 0x0. Seperate with 0x4
-  295 000001E0 4978            LDR              r1, =TIMER16_0
+  295 000001E0 4979            LDR              r1, =TIMER16_0
   296 000001E2 680A            LDR              r2,[r1, #GPTMCFG]
   297 000001E4 F36F 0202       BFC              r2,#0,#3    ;Clear bits
   298 000001E8 F042 0200       ORR              r2, r2, #0x0 
@@ -573,7 +573,7 @@ ARM Macro Assembler    Page 9
   299 000001EC 600A            STR              r2,[r1, #GPTMCFG]
   300 000001EE         
   301 000001EE         ;Configure Timer mode
-  302 000001EE 4975            LDR              r1, =TIMER16_0
+  302 000001EE 4976            LDR              r1, =TIMER16_0
   303 000001F0 684A            LDR              r2,[r1, #GPTMTAMR]
   304 000001F2         
   305 000001F2         ;No snapshot mode
@@ -599,21 +599,21 @@ ARM Macro Assembler    Page 10
   318 00000206 604A            STR              r2,[r1, #GPTMTAMR]
   319 00000208         
   320 00000208         ;Set ARR value
-  321 00000208 496E            LDR              r1, =TIMER16_0
+  321 00000208 496F            LDR              r1, =TIMER16_0
   322 0000020A 6A8A            LDR              r2,[r1, #GPTMTAILR]
   323 0000020C F36F 021F       BFC              r2,#0,#32   ;
   324 00000210 F06F 427F       MOV              r2,#0x00FFFFFF ;#0x3E42
   325 00000214 628A            STR              r2,[r1, #GPTMTAILR]
   326 00000216         
   327 00000216         ;Set Prescale value
-  328 00000216 496B            LDR              r1, =TIMER16_0
+  328 00000216 496C            LDR              r1, =TIMER16_0
   329 00000218 6B8A            LDR              r2,[r1, #GPTMTAPR]
   330 0000021A F36F 0207       BFC              r2,#0,#8
   331 0000021E         ;ORR r2,r2,#0xFF
   332 0000021E 638A            STR              r2,[r1, #GPTMTAPR]
   333 00000220         
   334 00000220         ;Set interrupts at timeout
-  335 00000220 4968            LDR              r1, =TIMER16_0
+  335 00000220 4969            LDR              r1, =TIMER16_0
   336 00000222 698A            LDR              r2,[r1, #GPTMIMR]
   337 00000224 F36F 0200       BFC              r2,#0,#1
   338 00000228 F042 0201       ORR              r2,r2,#1    ;Enable interrupts 
@@ -621,7 +621,7 @@ ARM Macro Assembler    Page 10
   339 0000022C 618A            STR              r2,[r1, #GPTMIMR]
   340 0000022E         
   341 0000022E         ;Prevents Timer0A from freezing during debug
-  342 0000022E 4965            LDR              r1, =TIMER16_0
+  342 0000022E 4966            LDR              r1, =TIMER16_0
   343 00000230 68CA            LDR              r2,[r1, #GPTMCTL]
   344 00000232 F36F 2249       BFC              r2,#9,#1
   345 00000236 F442 7200       ORR              r2,r2,#(1<<9) ;Set TASTAL to 1 
@@ -634,7 +634,7 @@ ARM Macro Assembler    Page 10
   348 00000242 60CA            STR              r2,[r1, #GPTMCTL]
   349 00000244         
   350 00000244         ;Enable Timer0A
-  351 00000244 495F            LDR              r1, =TIMER16_0
+  351 00000244 4960            LDR              r1, =TIMER16_0
   352 00000246 68CA            LDR              r2,[r1, #GPTMCTL]
   353 00000248 F36F 0200       BFC              r2,#0,#1
   354 0000024C F042 0201       ORR              r2,r2,#1    ;Set TAEN to enable
@@ -660,196 +660,196 @@ ARM Macro Assembler    Page 11
   366 00000258 B500            PUSH             {LR}
   367 0000025A         
   368 0000025A         ;Disable UART
-  369 0000025A 485B            LDR              r0, =UART1
+  369 0000025A 485C            LDR              r0, =UART1
   370 0000025C 6B01            LDR              r1,[r0, #UARTCTL] ;Program hang
                                                             s here if I read. J
                                                             ust write instead
   371 0000025E         
   372 0000025E         ;Set LBE bit for debugging
-  373 0000025E         
-  374 0000025E         
-  375 0000025E         ;Clear UART enable bit
-  376 0000025E F36F 0100       BFC              r1,#0,#1
-  377 00000262         
-  378 00000262         ;ClkDiv = 16
-  379 00000262 F36F 1145       BFC              r1,#5,#1
-  380 00000266         
-  381 00000266         ;Disable Rx and Tx
-  382 00000266 F36F 2108       BFC              r1,#8,#1
-  383 0000026A F36F 2149       BFC              r1,#9,#1
-  384 0000026E         
-  385 0000026E 6301            STR              r1,[r0, #UARTCTL]
-  386 00000270         
-  387 00000270         ;BRD. Baud Rate by default (?) is 9600.
-  388 00000270         ;Write BRDI. 104 decimal
-  389 00000270 4855            LDR              r0, =UART1
-  390 00000272 6A41            LDR              r1,[r0, #UARTIBRD]
-  391 00000274 F36F 010F       BFC              r1,#0,#16
-  392 00000278 F041 0168       ORR              r1,r1, #0x68
-  393 0000027C 6241            STR              r1,[r0, #UARTIBRD]
-  394 0000027E         
-  395 0000027E         ;Write BRDF. 11 decimal
-  396 0000027E 4852            LDR              r0, =UART1
-  397 00000280 6A81            LDR              r1,[r0, #UARTFBRD]
-  398 00000282 F36F 0105       BFC              r1,#0,#6
-  399 00000286 F041 010B       ORR              r1,r1, #0xB
-  400 0000028A 6281            STR              r1,[r0, #UARTFBRD]
-  401 0000028C         
-  402 0000028C         ;Configure Frame and save BRD via UARTLCRH
-  403 0000028C 484E            LDR              r0, =UART1
-  404 0000028E 6AC1            LDR              r1,[r0, #UARTLCRH]
-  405 00000290 F36F 0106       BFC              r1,#0,#7
-  406 00000294         
-  407 00000294         ;8 bits data
-  408 00000294 F041 0160       ORR              r1,r1,#(0x3<<5)
-  409 00000298         
-  410 00000298         ;Enable hardware FIFOs
-  411 00000298 F041 0110       ORR              r1,r1,#(1<<4)
-  412 0000029C         
-  413 0000029C 62C1            STR              r1,[r0, #UARTLCRH]
-  414 0000029E         
-  415 0000029E         ;Choose clock for UART
-  416 0000029E 484A            LDR              r0, =UART1
-  417 000002A0 F8D0 1FC8       LDR              r1,[r0, #UARTCC]
-  418 000002A4 F36F 0102       BFC              r1,#0,#3
-  419 000002A8 F041 0105       ORR              r1, r1, #0x5 ;PIOSC, 16MHz
+  373 0000025E F041 0180       ORR              r1,r1,#(1<<7)
+  374 00000262         
+  375 00000262         ;Clear UART enable bit
+  376 00000262 F36F 0100       BFC              r1,#0,#1
+  377 00000266         
+  378 00000266         ;ClkDiv = 16
+  379 00000266 F36F 1145       BFC              r1,#5,#1
+  380 0000026A         
+  381 0000026A         ;Disable Rx and Tx
+  382 0000026A F36F 2108       BFC              r1,#8,#1
+  383 0000026E F36F 2149       BFC              r1,#9,#1
+  384 00000272         
+  385 00000272 6301            STR              r1,[r0, #UARTCTL]
+  386 00000274         
+  387 00000274         ;BRD. Baud Rate by default (?) is 9600.
+  388 00000274         ;Write BRDI. 104 decimal
+  389 00000274 4855            LDR              r0, =UART1
+  390 00000276 6A41            LDR              r1,[r0, #UARTIBRD]
+  391 00000278 F36F 010F       BFC              r1,#0,#16
+  392 0000027C F041 0168       ORR              r1,r1, #0x68
+  393 00000280 6241            STR              r1,[r0, #UARTIBRD]
+  394 00000282         
+  395 00000282         ;Write BRDF. 11 decimal
+  396 00000282 4852            LDR              r0, =UART1
+  397 00000284 6A81            LDR              r1,[r0, #UARTFBRD]
+  398 00000286 F36F 0105       BFC              r1,#0,#6
+  399 0000028A F041 010B       ORR              r1,r1, #0xB
+  400 0000028E 6281            STR              r1,[r0, #UARTFBRD]
+  401 00000290         
+  402 00000290         ;Configure Frame and save BRD via UARTLCRH
+  403 00000290 484E            LDR              r0, =UART1
+  404 00000292 6AC1            LDR              r1,[r0, #UARTLCRH]
+  405 00000294 F36F 0106       BFC              r1,#0,#7
+  406 00000298         
+  407 00000298         ;8 bits data
+  408 00000298 F041 0160       ORR              r1,r1,#(0x3<<5)
+  409 0000029C         
+  410 0000029C         ;Enable hardware FIFOs
+  411 0000029C F041 0110       ORR              r1,r1,#(1<<4)
+  412 000002A0         
+  413 000002A0 62C1            STR              r1,[r0, #UARTLCRH]
+  414 000002A2         
+  415 000002A2         ;Choose clock for UART
+  416 000002A2 484A            LDR              r0, =UART1
+  417 000002A4 F8D0 1FC8       LDR              r1,[r0, #UARTCC]
+  418 000002A8 F36F 0102       BFC              r1,#0,#3
+  419 000002AC F041 0105       ORR              r1, r1, #0x5 ;PIOSC, 16MHz
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-  420 000002AC F8C0 1FC8       STR              r1,[r0, #UARTCC]
-  421 000002B0         
-  422 000002B0         ;Choose FIFO trigger levels
-  423 000002B0 4845            LDR              r0, =UART1
-  424 000002B2 6B41            LDR              r1,[r0, #UARTIFLS]
-  425 000002B4 F36F 0105       BFC              r1,#0,#6
-  426 000002B8         
-  427 000002B8         ;RxFIFO>=1/8. 16bytes/8 = 2 bytes
-  428 000002B8 F041 0100       ORR              r1,r1,#(0x0<<3)
-  429 000002BC         
-  430 000002BC         ;TxFIFO<=1/8. 16bytes/8 = 2 bytes
-  431 000002BC F041 0104       ORR              r1,r1,#0x4
-  432 000002C0         
-  433 000002C0 6341            STR              r1,[r0, #UARTIFLS]
-  434 000002C2         
-  435 000002C2         ;Choose interrupts to enable to NVIC
-  436 000002C2 4841            LDR              r0, =UART1
-  437 000002C4 6B81            LDR              r1,[r0, #UARTIM]
-  438 000002C6 F36F 1106       BFC              r1,#4,#3
-  439 000002CA         
-  440 000002CA         ;Allow timeout interrupt
-  441 000002CA F041 0140       ORR              r1,r1,#(1<<6)
-  442 000002CE         
-  443 000002CE         ;Allow TxFIFO interrupt
-  444 000002CE F041 0120       ORR              r1,r1,#(1<<5)
-  445 000002D2         
-  446 000002D2         ;Allow RxFIFO interrupt
-  447 000002D2 F041 0110       ORR              r1,r1,#(1<<4)
-  448 000002D6         
-  449 000002D6 6381            STR              r1,[r0, #UARTIM]
-  450 000002D8         
-  451 000002D8         ;Enable UART
-  452 000002D8 483B            LDR              r0, =UART1
-  453 000002DA 6B01            LDR              r1,[r0, #UARTCTL]
-  454 000002DC         
-  455 000002DC         ;Enable Rx
-  456 000002DC F441 7100       ORR              r1,r1,#(1<<9)
-  457 000002E0         
-  458 000002E0         ;Enable Tx
-  459 000002E0 F441 7180       ORR              r1,r1,#(1<<8)
-  460 000002E4         
-  461 000002E4         ;Enable UART
-  462 000002E4 F041 0101       ORR              r1,r1,#1
-  463 000002E8         
-  464 000002E8 6301            STR              r1,[r0, #UARTCTL]
-  465 000002EA         
-  466 000002EA         ;Restore context
-  467 000002EA F85D EB04       POP              {LR}
-  468 000002EE 4770            BX               LR
-  469 000002F0         
-  470 000002F0                 ENDP
-  471 000002F0         
-  472 000002F0         
-  473 000002F0         
-  474 000002F0         ;This subroutine is used to push data onto software FIFO
+  420 000002B0 F8C0 1FC8       STR              r1,[r0, #UARTCC]
+  421 000002B4         
+  422 000002B4         ;Choose FIFO trigger levels
+  423 000002B4 4845            LDR              r0, =UART1
+  424 000002B6 6B41            LDR              r1,[r0, #UARTIFLS]
+  425 000002B8 F36F 0105       BFC              r1,#0,#6
+  426 000002BC         
+  427 000002BC         ;RxFIFO>=1/8. 16bytes/8 = 2 bytes
+  428 000002BC F041 0100       ORR              r1,r1,#(0x0<<3)
+  429 000002C0         
+  430 000002C0         ;TxFIFO<=1/8. 16bytes/8 = 2 bytes
+  431 000002C0 F041 0104       ORR              r1,r1,#0x4
+  432 000002C4         
+  433 000002C4 6341            STR              r1,[r0, #UARTIFLS]
+  434 000002C6         
+  435 000002C6         ;Choose interrupts to enable to NVIC
+  436 000002C6 4841            LDR              r0, =UART1
+  437 000002C8 6B81            LDR              r1,[r0, #UARTIM]
+  438 000002CA F36F 1106       BFC              r1,#4,#3
+  439 000002CE         
+  440 000002CE         ;Allow timeout interrupt
+  441 000002CE F041 0140       ORR              r1,r1,#(1<<6)
+  442 000002D2         
+  443 000002D2         ;Allow TxFIFO interrupt
+  444 000002D2 F041 0120       ORR              r1,r1,#(1<<5)
+  445 000002D6         
+  446 000002D6         ;Allow RxFIFO interrupt
+  447 000002D6 F041 0110       ORR              r1,r1,#(1<<4)
+  448 000002DA         
+  449 000002DA 6381            STR              r1,[r0, #UARTIM]
+  450 000002DC         
+  451 000002DC         ;Enable UART
+  452 000002DC 483B            LDR              r0, =UART1
+  453 000002DE 6B01            LDR              r1,[r0, #UARTCTL]
+  454 000002E0         
+  455 000002E0         ;Enable Rx
+  456 000002E0 F441 7100       ORR              r1,r1,#(1<<9)
+  457 000002E4         
+  458 000002E4         ;Enable Tx
+  459 000002E4 F441 7180       ORR              r1,r1,#(1<<8)
+  460 000002E8         
+  461 000002E8         ;Enable UART
+  462 000002E8 F041 0101       ORR              r1,r1,#1
+  463 000002EC         
+  464 000002EC 6301            STR              r1,[r0, #UARTCTL]
+  465 000002EE         
+  466 000002EE         ;Restore context
+  467 000002EE F85D EB04       POP              {LR}
+  468 000002F2 4770            BX               LR
+  469 000002F4         
+  470 000002F4                 ENDP
+  471 000002F4         
+  472 000002F4         
+  473 000002F4         
+  474 000002F4         ;This subroutine is used to push data onto software FIFO
                        
-  475 000002F0         ;Input parameters
-  476 000002F0         ; r0: 0/1 = Tx/Rx
-  477 000002F0         ; r1: 8-bit data value
+  475 000002F4         ;Input parameters
+  476 000002F4         ; r0: 0/1 = Tx/Rx
+  477 000002F4         ; r1: 8-bit data value
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-  478 000002F0         Push_FIFO
+  478 000002F4         Push_FIFO
                                PROC
-  479 000002F0         ;Push context
-  480 000002F0 E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  479 000002F4         ;Push context
+  480 000002F4 E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  481 000002F4         
-  482 000002F4         ;Are you using TxFIFO or RxFIFO?
-  483 000002F4 2800            CMP              r0,#0
-  484 000002F6 D105            BNE              Push_RxFIFO
-  485 000002F8         
-  486 000002F8         Push_TxFIFO
-  487 000002F8         ;Note: Loading variables from memory like this means it'
+  481 000002F8         
+  482 000002F8         ;Are you using TxFIFO or RxFIFO?
+  483 000002F8 2800            CMP              r0,#0
+  484 000002FA D105            BNE              Push_RxFIFO
+  485 000002FC         
+  486 000002FC         Push_TxFIFO
+  487 000002FC         ;Note: Loading variables from memory like this means it'
                        s static - it remains even after leaving the subroutine 
                        and is only visible to where it's called (at assembly le
                        vel)
-  488 000002F8         ;Load Tx counters. Volatile
-  489 000002F8 4834            LDR              r0, =TxPutI
-  490 000002FA 6802            LDR              r2,[r0]
-  491 000002FC 4834            LDR              r0, =TxGetI
-  492 000002FE 6803            LDR              r3,[r0]
-  493 00000300         ;Load FIFO
-  494 00000300 4C34            LDR              r4, =TxFifo
-  495 00000302         
-  496 00000302 E004            B                Push_cont
-  497 00000304         
-  498 00000304         Push_RxFIFO
-  499 00000304         ;Load Rx counters. Volatile
-  500 00000304 4834            LDR              r0, =RxPutI
-  501 00000306 6802            LDR              r2,[r0]
-  502 00000308 4834            LDR              r0, =RxGetI
-  503 0000030A 6803            LDR              r3,[r0]
-  504 0000030C         ;Load FIFO
-  505 0000030C 4C34            LDR              r4, =RxFifo
-  506 0000030E         
-  507 0000030E         Push_cont
-  508 0000030E         ;Setup
-  509 0000030E F04F 0010       LDR              r0, =SIZE
-  510 00000312         ;LDRH for unsigned halfward (16 bits)
-  511 00000312 8805            LDRH             r5,[r0]
-  512 00000314 F1A5 0501       SUB              r5,r5,#1    ;SIZE-1
-  513 00000318         
-  514 00000318 EA6F 0605       MVN              r6,r5       ;~SIZE
-  515 0000031C EBA2 0303       SUB              r3,r2,r3    ;don't need GetI an
+  488 000002FC         ;Load Tx counters. Volatile
+  489 000002FC 4834            LDR              r0, =TxPutI
+  490 000002FE 6802            LDR              r2,[r0]
+  491 00000300 4834            LDR              r0, =TxGetI
+  492 00000302 6803            LDR              r3,[r0]
+  493 00000304         ;Load FIFO
+  494 00000304 4C34            LDR              r4, =TxFifo
+  495 00000306         
+  496 00000306 E004            B                Push_cont
+  497 00000308         
+  498 00000308         Push_RxFIFO
+  499 00000308         ;Load Rx counters. Volatile
+  500 00000308 4834            LDR              r0, =RxPutI
+  501 0000030A 6802            LDR              r2,[r0]
+  502 0000030C 4834            LDR              r0, =RxGetI
+  503 0000030E 6803            LDR              r3,[r0]
+  504 00000310         ;Load FIFO
+  505 00000310 4C34            LDR              r4, =RxFifo
+  506 00000312         
+  507 00000312         Push_cont
+  508 00000312         ;Setup
+  509 00000312 F04F 0010       LDR              r0, =SIZE
+  510 00000316         ;LDRH for unsigned halfward (16 bits)
+  511 00000316 8805            LDRH             r5,[r0]
+  512 00000318 F1A5 0501       SUB              r5,r5,#1    ;SIZE-1
+  513 0000031C         
+  514 0000031C EA6F 0605       MVN              r6,r5       ;~SIZE
+  515 00000320 EBA2 0303       SUB              r3,r2,r3    ;don't need GetI an
                                                             ymore. Reuse r2
-  516 00000320 EA03 0306       AND              r3,r3,r6    ;(PutI - GetI) & ~(
+  516 00000324 EA03 0306       AND              r3,r3,r6    ;(PutI - GetI) & ~(
                                                             SIZE - 1)
-  517 00000324         
-  518 00000324         ;If software FIFO is full, return FAIL and exit. Otherwi
+  517 00000328         
+  518 00000328         ;If software FIFO is full, return FAIL and exit. Otherwi
                        se continue
-  519 00000324 2B00            CMP              r3,#0
-  520 00000326 D008            BEQ              Push_exit
-  521 00000328         
-  522 00000328         ;This part is used to index. This is a little more diffi
+  519 00000328 2B00            CMP              r3,#0
+  520 0000032A D008            BEQ              Push_exit
+  521 0000032C         
+  522 0000032C         ;This part is used to index. This is a little more diffi
                        cult, depending on how far apart the data actually is in
                         the array. Since array is DCB, 8 bits -> no offset?
-  523 00000328 EA02 0205       AND              r2,r2,r5    ;PutI & (SIZE - 1)
-  524 0000032C         ;STRH for unsigned byte
+  523 0000032C EA02 0205       AND              r2,r2,r5    ;PutI & (SIZE - 1)
+  524 00000330         ;STRH for unsigned byte
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-  525 0000032C 52A1            STRH             r1,[r4,r2]  ;Fifo[base+offset+m
+  525 00000330 52A1            STRH             r1,[r4,r2]  ;Fifo[base+offset+m
                                                             emOffset], memOffse
                                                             t is offset caused 
                                                             by memory (4 locati
@@ -857,96 +857,96 @@ ARM Macro Assembler    Page 14
                                                             c0. Since DCB is 8,
                                                              it's assumed that 
                                                             memOffset = 0
-  526 0000032E F04F 0101       LDR              r1, =SUCCESS
-  527 00000332         ;LDRH for unsigned halfward (16 bits)
-  528 00000332 8808            LDRH             r0,[r1]     ;Return SUCCESS val
+  526 00000332 F04F 0101       LDR              r1, =SUCCESS
+  527 00000336         ;LDRH for unsigned halfward (16 bits)
+  528 00000336 8808            LDRH             r0,[r1]     ;Return SUCCESS val
                                                             ue
-  529 00000334         
-  530 00000334         ;Restore context
-  531 00000334 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  529 00000338         
+  530 00000338         ;Restore context
+  531 00000338 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  532 00000338         
-  533 00000338 4770            BX               LR
-  534 0000033A         
-  535 0000033A         Push_exit
-  536 0000033A F04F 0100       LDR              r1, =FAIL
-  537 0000033E         ;LDRH for unsigned halfward (16 bits)
-  538 0000033E 8808            LDRH             r0,[r1]     ;Return FAIL value
-  539 00000340         
-  540 00000340         ;Restore context
-  541 00000340 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  532 0000033C         
+  533 0000033C 4770            BX               LR
+  534 0000033E         
+  535 0000033E         Push_exit
+  536 0000033E F04F 0100       LDR              r1, =FAIL
+  537 00000342         ;LDRH for unsigned halfward (16 bits)
+  538 00000342 8808            LDRH             r0,[r1]     ;Return FAIL value
+  539 00000344         
+  540 00000344         ;Restore context
+  541 00000344 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  542 00000344         
-  543 00000344 4770            BX               LR
-  544 00000346         
-  545 00000346                 ENDP
-  546 00000346         
-  547 00000346         ;This subroutine is used to pull data from software FIFO
+  542 00000348         
+  543 00000348 4770            BX               LR
+  544 0000034A         
+  545 0000034A                 ENDP
+  546 0000034A         
+  547 0000034A         ;This subroutine is used to pull data from software FIFO
                        
-  548 00000346         ;Input arguments
-  549 00000346         ; r0: 0/1 = Tx/Rx
-  550 00000346         ; r1: Address of temporary variable (? It can be a regis
+  548 0000034A         ;Input arguments
+  549 0000034A         ; r0: 0/1 = Tx/Rx
+  550 0000034A         ; r1: Address of temporary variable (? It can be a regis
                        ter too. To write to a variable)
-  551 00000346         Pull_FIFO
+  551 0000034A         Pull_FIFO
                                PROC
-  552 00000346         ;Push context
-  553 00000346 E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  552 0000034A         ;Push context
+  553 0000034A E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  554 0000034A         
-  555 0000034A         ;Are you using TxFIFO or RxFIFO?
-  556 0000034A 2800            CMP              r0,#0
-  557 0000034C D105            BNE              Pull_RxFIFO
-  558 0000034E         
-  559 0000034E         Pull_TxFIFO
-  560 0000034E         ;Load Tx counters
-  561 0000034E 481F            LDR              r0, =TxPutI
-  562 00000350 6802            LDR              r2,[r0]
-  563 00000352 481F            LDR              r0, =TxGetI
+  554 0000034E         
+  555 0000034E         ;Are you using TxFIFO or RxFIFO?
+  556 0000034E 2800            CMP              r0,#0
+  557 00000350 D105            BNE              Pull_RxFIFO
+  558 00000352         
+  559 00000352         Pull_TxFIFO
+  560 00000352         ;Load Tx counters
+  561 00000352 481F            LDR              r0, =TxPutI
+  562 00000354 6802            LDR              r2,[r0]
+  563 00000356 481F            LDR              r0, =TxGetI
 
 
 
 ARM Macro Assembler    Page 15 
 
 
-  564 00000354 6803            LDR              r3,[r0]
-  565 00000356         ;Load FIFO
-  566 00000356 4C1F            LDR              r4, =TxFifo
-  567 00000358         
-  568 00000358 E004            B                Pull_cont
-  569 0000035A         
-  570 0000035A         Pull_RxFIFO
-  571 0000035A         ;Load Rx counters
-  572 0000035A 481F            LDR              r0, =RxPutI
-  573 0000035C 6802            LDR              r2,[r0]
-  574 0000035E 481F            LDR              r0, =RxGetI
-  575 00000360 6803            LDR              r3,[r0]
-  576 00000362         ;Load FIFO
-  577 00000362 4C1F            LDR              r4, =RxFifo
-  578 00000364         
-  579 00000364         Pull_cont
-  580 00000364         ;setup
-  581 00000364 F04F 0010       LDR              r0, =SIZE
-  582 00000368         ;LDRH for unsigned halfward (16 bits)
-  583 00000368 8805            LDRH             r5,[r0]
-  584 0000036A F1A5 0501       SUB              r5,r5,#1    ;SIZE-1
-  585 0000036E         
-  586 0000036E         ;If software FIFO is empty, return FAIL and exit. Otherw
+  564 00000358 6803            LDR              r3,[r0]
+  565 0000035A         ;Load FIFO
+  566 0000035A 4C1F            LDR              r4, =TxFifo
+  567 0000035C         
+  568 0000035C E004            B                Pull_cont
+  569 0000035E         
+  570 0000035E         Pull_RxFIFO
+  571 0000035E         ;Load Rx counters
+  572 0000035E 481F            LDR              r0, =RxPutI
+  573 00000360 6802            LDR              r2,[r0]
+  574 00000362 481F            LDR              r0, =RxGetI
+  575 00000364 6803            LDR              r3,[r0]
+  576 00000366         ;Load FIFO
+  577 00000366 4C1F            LDR              r4, =RxFifo
+  578 00000368         
+  579 00000368         Pull_cont
+  580 00000368         ;setup
+  581 00000368 F04F 0010       LDR              r0, =SIZE
+  582 0000036C         ;LDRH for unsigned halfward (16 bits)
+  583 0000036C 8805            LDRH             r5,[r0]
+  584 0000036E F1A5 0501       SUB              r5,r5,#1    ;SIZE-1
+  585 00000372         
+  586 00000372         ;If software FIFO is empty, return FAIL and exit. Otherw
                        ise continue
-  587 0000036E 429A            CMP              r2,r3
-  588 00000370 D009            BEQ              Pull_exit
-  589 00000372         
-  590 00000372         ;This part is used to index. This is a little more diffi
+  587 00000372 429A            CMP              r2,r3
+  588 00000374 D009            BEQ              Pull_exit
+  589 00000376         
+  590 00000376         ;This part is used to index. This is a little more diffi
                        cult, depending on how far apart the data actually is in
                         the array. Since array is DCB, 8 bits -> no offset?
-  591 00000372 EA03 0305       AND              r3,r3,r5    ;GetI & (SIZE - 1)
-  592 00000376         ;LDRB for unsigned byte
-  593 00000376 5CE2            LDRB             r2,[r4,r3]  ;Fifo[base+offset+m
+  591 00000376 EA03 0305       AND              r3,r3,r5    ;GetI & (SIZE - 1)
+  592 0000037A         ;LDRB for unsigned byte
+  593 0000037A 5CE2            LDRB             r2,[r4,r3]  ;Fifo[base+offset+m
                                                             emOffset], memOffse
                                                             t is offset caused 
                                                             by memory (4 locati
@@ -954,89 +954,89 @@ ARM Macro Assembler    Page 15
                                                             c0. Since DCB is 8,
                                                              it's assumed that 
                                                             memOffset = 0
-  594 00000378         ;STRH for unsigned byte
-  595 00000378 800A            STRH             r2,[r1]     ; *data = Fifo[n]
-  596 0000037A F04F 0101       LDR              r1, =SUCCESS
-  597 0000037E         ;LDRH for unsigned halfward (16 bits)
-  598 0000037E 8808            LDRH             r0,[r1]     ;Return SUCCESS val
+  594 0000037C         ;STRH for unsigned byte
+  595 0000037C 800A            STRH             r2,[r1]     ; *data = Fifo[n]
+  596 0000037E F04F 0101       LDR              r1, =SUCCESS
+  597 00000382         ;LDRH for unsigned halfward (16 bits)
+  598 00000382 8808            LDRH             r0,[r1]     ;Return SUCCESS val
                                                             ue
-  599 00000380         
-  600 00000380         ;Restore context
-  601 00000380 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  599 00000384         
+  600 00000384         ;Restore context
+  601 00000384 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  602 00000384         
-  603 00000384 4770            BX               LR
-  604 00000386         
-  605 00000386         Pull_exit
-  606 00000386 F04F 0100       LDR              r1, =FAIL
-  607 0000038A         ;LDRH for unsigned halfward (16 bits)
-  608 0000038A 8808            LDRH             r0,[r1]     ;Return FAIL value
+  602 00000388         
+  603 00000388 4770            BX               LR
+  604 0000038A         
+  605 0000038A         Pull_exit
+  606 0000038A F04F 0100       LDR              r1, =FAIL
+  607 0000038E         ;LDRH for unsigned halfward (16 bits)
+  608 0000038E 8808            LDRH             r0,[r1]     ;Return FAIL value
 
 
 
 ARM Macro Assembler    Page 16 
 
 
-  609 0000038C         
-  610 0000038C         ;Restore context
-  611 0000038C E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  609 00000390         
+  610 00000390         ;Restore context
+  611 00000390 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  612 00000390         
-  613 00000390 4770            BX               LR
-  614 00000392         
-  615 00000392                 ENDP
-  616 00000392         
-  617 00000392         
-  618 00000392         ;This subroutine returns the currently used size of the 
+  612 00000394         
+  613 00000394 4770            BX               LR
+  614 00000396         
+  615 00000396                 ENDP
+  616 00000396         
+  617 00000396         
+  618 00000396         ;This subroutine returns the currently used size of the 
                        software FIFO
-  619 00000392         ;Input arguments
-  620 00000392         ; r0: 0/1 = Tx/Rx
-  621 00000392         Size_FIFO
+  619 00000396         ;Input arguments
+  620 00000396         ; r0: 0/1 = Tx/Rx
+  621 00000396         Size_FIFO
                                PROC
-  622 00000392         ;Push context
-  623 00000392 E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  622 00000396         ;Push context
+  623 00000396 E92D 0FF0       PUSH             {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  624 00000396         
-  625 00000396         ;Are you using TxFIFO or RxFIFO?
-  626 00000396 2800            CMP              r0,#0
-  627 00000398 D104            BNE              Size_RxFIFO
-  628 0000039A         
-  629 0000039A         Size_TxFIFO
-  630 0000039A         ;Load Tx counters
-  631 0000039A 480C            LDR              r0, =TxPutI
-  632 0000039C 6802            LDR              r2,[r0]
-  633 0000039E 480C            LDR              r0, =TxGetI
-  634 000003A0 6803            LDR              r3,[r0]
-  635 000003A2         
-  636 000003A2 E003            B                Size_cont
-  637 000003A4         
-  638 000003A4         Size_RxFIFO
-  639 000003A4         ;Load Rx counters
-  640 000003A4 480C            LDR              r0, =RxPutI
-  641 000003A6 6802            LDR              r2,[r0]
-  642 000003A8 480C            LDR              r0, =RxGetI
-  643 000003AA 6803            LDR              r3,[r0]
-  644 000003AC         
-  645 000003AC         Size_cont
-  646 000003AC EBA2 0003       SUB              r0,r2,r3
-  647 000003B0         
-  648 000003B0         ;Restore context
-  649 000003B0 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
+  624 0000039A         
+  625 0000039A         ;Are you using TxFIFO or RxFIFO?
+  626 0000039A 2800            CMP              r0,#0
+  627 0000039C D104            BNE              Size_RxFIFO
+  628 0000039E         
+  629 0000039E         Size_TxFIFO
+  630 0000039E         ;Load Tx counters
+  631 0000039E 480C            LDR              r0, =TxPutI
+  632 000003A0 6802            LDR              r2,[r0]
+  633 000003A2 480C            LDR              r0, =TxGetI
+  634 000003A4 6803            LDR              r3,[r0]
+  635 000003A6         
+  636 000003A6 E003            B                Size_cont
+  637 000003A8         
+  638 000003A8         Size_RxFIFO
+  639 000003A8         ;Load Rx counters
+  640 000003A8 480C            LDR              r0, =RxPutI
+  641 000003AA 6802            LDR              r2,[r0]
+  642 000003AC 480C            LDR              r0, =RxGetI
+  643 000003AE 6803            LDR              r3,[r0]
+  644 000003B0         
+  645 000003B0         Size_cont
+  646 000003B0 EBA2 0003       SUB              r0,r2,r3
+  647 000003B4         
+  648 000003B4         ;Restore context
+  649 000003B4 E8BD 0FF0       POP              {r4,r5,r6,r7,r8,r9,r10,r11} ;Re
                                                             move registers that
                                                              aren't used from l
                                                             ist
-  650 000003B4         
-  651 000003B4 4770            BX               LR
-  652 000003B6         
-  653 000003B6                 ENDP
-  654 000003B6         
-  655 000003B6                 END
+  650 000003B8         
+  651 000003B8 4770            BX               LR
+  652 000003BA         
+  653 000003BA                 ENDP
+  654 000003BA         
+  655 000003BA                 END
               00 00 400FE000 
 
 
@@ -1171,7 +1171,7 @@ Symbol: NVIC_Priority
    Uses
       None
 Comment: NVIC_Priority unused
-Pull_FIFO 00000346
+Pull_FIFO 0000034A
 
 Symbol: Pull_FIFO
    Definitions
@@ -1179,7 +1179,7 @@ Symbol: Pull_FIFO
    Uses
       None
 Comment: Pull_FIFO unused
-Pull_RxFIFO 0000035A
+Pull_RxFIFO 0000035E
 
 Symbol: Pull_RxFIFO
    Definitions
@@ -1187,7 +1187,7 @@ Symbol: Pull_RxFIFO
    Uses
       At line 557 in file my_Subroutines.s
 Comment: Pull_RxFIFO used once
-Pull_TxFIFO 0000034E
+Pull_TxFIFO 00000352
 
 Symbol: Pull_TxFIFO
    Definitions
@@ -1195,7 +1195,7 @@ Symbol: Pull_TxFIFO
    Uses
       None
 Comment: Pull_TxFIFO unused
-Pull_cont 00000364
+Pull_cont 00000368
 
 Symbol: Pull_cont
    Definitions
@@ -1203,7 +1203,7 @@ Symbol: Pull_cont
    Uses
       At line 568 in file my_Subroutines.s
 Comment: Pull_cont used once
-Pull_exit 00000386
+Pull_exit 0000038A
 
 Symbol: Pull_exit
 
@@ -1217,7 +1217,7 @@ Relocatable symbols
    Uses
       At line 588 in file my_Subroutines.s
 Comment: Pull_exit used once
-Push_FIFO 000002F0
+Push_FIFO 000002F4
 
 Symbol: Push_FIFO
    Definitions
@@ -1225,7 +1225,7 @@ Symbol: Push_FIFO
    Uses
       None
 Comment: Push_FIFO unused
-Push_RxFIFO 00000304
+Push_RxFIFO 00000308
 
 Symbol: Push_RxFIFO
    Definitions
@@ -1233,7 +1233,7 @@ Symbol: Push_RxFIFO
    Uses
       At line 484 in file my_Subroutines.s
 Comment: Push_RxFIFO used once
-Push_TxFIFO 000002F8
+Push_TxFIFO 000002FC
 
 Symbol: Push_TxFIFO
    Definitions
@@ -1241,7 +1241,7 @@ Symbol: Push_TxFIFO
    Uses
       None
 Comment: Push_TxFIFO unused
-Push_cont 0000030E
+Push_cont 00000312
 
 Symbol: Push_cont
    Definitions
@@ -1249,7 +1249,7 @@ Symbol: Push_cont
    Uses
       At line 496 in file my_Subroutines.s
 Comment: Push_cont used once
-Push_exit 0000033A
+Push_exit 0000033E
 
 Symbol: Push_exit
    Definitions
@@ -1265,7 +1265,7 @@ Symbol: RCGC_Init
    Uses
       None
 Comment: RCGC_Init unused
-Size_FIFO 00000392
+Size_FIFO 00000396
 
 Symbol: Size_FIFO
    Definitions
@@ -1279,7 +1279,7 @@ Relocatable symbols
 
       None
 Comment: Size_FIFO unused
-Size_RxFIFO 000003A4
+Size_RxFIFO 000003A8
 
 Symbol: Size_RxFIFO
    Definitions
@@ -1287,7 +1287,7 @@ Symbol: Size_RxFIFO
    Uses
       At line 627 in file my_Subroutines.s
 Comment: Size_RxFIFO used once
-Size_TxFIFO 0000039A
+Size_TxFIFO 0000039E
 
 Symbol: Size_TxFIFO
    Definitions
@@ -1295,7 +1295,7 @@ Symbol: Size_TxFIFO
    Uses
       None
 Comment: Size_TxFIFO unused
-Size_cont 000003AC
+Size_cont 000003B0
 
 Symbol: Size_cont
    Definitions
