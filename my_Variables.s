@@ -3,7 +3,7 @@
 	
 ;GPIO data mask	
 		EXPORT PB5_MASK
-PB5_MASK DCD 240;0x000000F0
+PB5_MASK DCD 0x20;0xF0
 	
 ;FIFO variables
 	ALIGN 1

@@ -141,44 +141,44 @@ GPIO_Init	PROC
 	ENDP
 		
 		
-;This subroutine sets up GPIO pins PA0 & PA1 for UART
-GPIO_UART	PROC
+;This subroutine sets up GPIO pins PB0 (Rx) & PB1 (Tx) for UART1
+GPIO_UART1	PROC
 	;Save context
 	PUSH {LR}
 	
 	;set to output. GPIODIR
-	LDR r0, =AHB_PORTA
+	LDR r0, =AHB_PORTB
 	LDR r1,[r0,#GPIODIR]
-	ORR r1, r1, #1 ;PA0: input
-	BFC r1, #1, #1 ;PA1: output
+	ORR r1, r1, #1 ;PB0: input
+	BFC r1, #1, #1 ;PB1: output
 	STR r1,[r0,#GPIODIR]
 	
 	;set mode to GPIO (nor alternate function). GPIOAFSEL
-	LDR r0, =AHB_PORTA
+	LDR r0, =AHB_PORTB
 	LDR r1,[r0, #GPIOAFSEL]
-	ORR r1, r1, #1 ;PA0: AF
-	ORR r1, r1, #(1<<1) ;PA1: AF
+	ORR r1, r1, #1 ;PB0: AF
+	ORR r1, r1, #(1<<1) ;PB1: AF
 	STR r1,[r0, #GPIOAFSEL]
 	
 	;Select UART for AF
-	LDR r0, =AHB_PORTA
+	LDR r0, =AHB_PORTB
 	LDR r1,[r0, #GPIOPCTL]
-	ORR r1, r1, #0x1 ;PA0: UART
-	ORR r1, r1, #(0x1<<4) ;PA1: UART
+	ORR r1, r1, #0x1 ;PB0: UART
+	ORR r1, r1, #(0x1<<4) ;PB1: UART
 	STR r1,[r0, #GPIOPCTL]
 
 	;to drive strength to 2mA. GPIODR2R
-	LDR r0, =AHB_PORTA
+	LDR r0, =AHB_PORTB
 	LDR r1,[r0,#GPIODR2R]
-	ORR r1, r1, #1 ;PA0: 2mA
-	ORR r1, r1, #(1<<1) ;PA1: 2mA
+	ORR r1, r1, #1 ;PB0: 2mA
+	ORR r1, r1, #(1<<1) ;PB1: 2mA
 	STR r1,[r0,#GPIODR2R]
 	
 	;enable digital output. GPIODEN
-	LDR r0, =AHB_PORTA
+	LDR r0, =AHB_PORTB
 	LDR r1,[r0,#GPIODEN]
-	ORR r1, r1, #1 ;PA0: Digital I/O
-	ORR r1, r1, #(1<<1) ;PA1: Digital I/O
+	ORR r1, r1, #1 ;PB0: Digital I/O
+	ORR r1, r1, #(1<<1) ;PB1: Digital I/O
 	STR r1,[r0,#GPIODEN]
 	
 	;Restore context
@@ -211,7 +211,7 @@ RCGC_Init	PROC
 	;Initialize UART for run-time via RCGC
 	LDR r0, =SYS_CONTROL
 	LDR r1,[r0, #RCGCUART]
-	ORR r1,r1,#1
+	ORR r1,r1,#(1<<1) ;bit 1 (UART1), not bit 0 (UART0)
 	STR r1,[r0, #RCGCUART]
 	
 	;Restore context
@@ -360,40 +360,49 @@ TIMER_Init	PROC
 	ENDP
 		
 		
-;This subroutine initializes UART0, Tx = PA1 & Rx = PA0
+;This subroutine initializes UART1, Tx = PB1 & Rx = PB0
 UART_Init	PROC
 	;Save context
 	PUSH {LR}
 	
 	;Disable UART
-	LDR r0, =UART0
-	LDR r1,[r0, #UARTCTL]
-	BFC r1,#1,#1
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTCTL] ;Program hangs here if I read. Just write instead
+	
+	;Set LBE bit for debugging
+	
+	
+	;Clear UART enable bit
+	BFC r1,#0,#1
 	
 	;ClkDiv = 16
 	BFC r1,#5,#1
+	
+	;Disable Rx and Tx
+	BFC r1,#8,#1
+	BFC r1,#9,#1
 	
 	STR r1,[r0, #UARTCTL]
 	
 	;BRD. Baud Rate by default (?) is 9600.
 	;Write BRDI. 104 decimal
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTIBRD]
-	BFC r1,#1,#16
+	BFC r1,#0,#16
 	ORR r1,r1, #0x68
 	STR r1,[r0, #UARTIBRD]
 	
 	;Write BRDF. 11 decimal
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTFBRD]
-	BFC r1,#1,#6
+	BFC r1,#0,#6
 	ORR r1,r1, #0xB
 	STR r1,[r0, #UARTFBRD]
 	
 	;Configure Frame and save BRD via UARTLCRH
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTLCRH]
-	BFC r1,#1,#6
+	BFC r1,#0,#7
 	
 	;8 bits data
 	ORR r1,r1,#(0x3<<5)
@@ -404,22 +413,27 @@ UART_Init	PROC
 	STR r1,[r0, #UARTLCRH]
 	
 	;Choose clock for UART
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTCC]
 	BFC r1,#0,#3
 	ORR r1, r1, #0x5 ;PIOSC, 16MHz
 	STR r1,[r0, #UARTCC]
 	
 	;Choose FIFO trigger levels
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTIFLS]
 	BFC r1,#0,#6
-	ORR r1,r1,#(0x0<<3);RxFIFO>=1/8
-	ORR r1,r1,#0x4 ;TxFIFO<=1/8
+	
+	;RxFIFO>=1/8. 16bytes/8 = 2 bytes
+	ORR r1,r1,#(0x0<<3)
+	
+	;TxFIFO<=1/8. 16bytes/8 = 2 bytes
+	ORR r1,r1,#0x4 
+	
 	STR r1,[r0, #UARTIFLS]
 	
 	;Choose interrupts to enable to NVIC
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTIM]
 	BFC r1,#4,#3
 	
@@ -435,9 +449,18 @@ UART_Init	PROC
 	STR r1,[r0, #UARTIM]
 	
 	;Enable UART
-	LDR r0, =UART0
+	LDR r0, =UART1
 	LDR r1,[r0, #UARTCTL]
+	
+	;Enable Rx
+	ORR r1,r1,#(1<<9)
+	
+	;Enable Tx
+	ORR r1,r1,#(1<<8)
+	
+	;Enable UART
 	ORR r1,r1,#1
+	
 	STR r1,[r0, #UARTCTL]
 	
 	;Restore context

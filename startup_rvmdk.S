@@ -116,7 +116,7 @@ __Vectors
         DCD     IntDefaultHandler           ; GPIO Port D
         DCD     IntDefaultHandler           ; GPIO Port E
         DCD     UART0_Handler	            ; UART0 Rx and Tx
-        DCD     IntDefaultHandler           ; UART1 Rx and Tx
+        DCD     UART1_Handler 	            ; UART1 Rx and Tx
         DCD     IntDefaultHandler           ; SSI0 Rx and Tx
         DCD     IntDefaultHandler           ; I2C0 Master and Slave
         DCD     IntDefaultHandler           ; PWM Fault
@@ -289,7 +289,7 @@ Reset_Handler
 		;I'm getting trash data this RAM address. Clearing and properly setting to ONLY 0xF0
 		BFC r3,#0,#32
 		
-		ORR r3, r3, #0xF0
+		ORR r3, r3, #0x20;#0xF0
 		STR r3,[r2]
 	
         IMPORT  __main
@@ -333,7 +333,7 @@ SysTick_Handler	PROC
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask
-	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
 	STR r2,[r1]	;Store the toggled mask to properly toggle next time
 	STR r2,[r0,#GPIODATAPB5]
 	;LDR r2,[r0,#GPIODATAPB5]
@@ -358,7 +358,7 @@ Timer0A_Handler	PROC
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask
-	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
 	STR r2,[r1]	;Store the toggled mask to properly toggle next time
 	STR r2,[r0,#GPIODATAPB5]
 	;LDR r2,[r0,#GPIODATAPB5]
@@ -385,7 +385,7 @@ Timer4A_Handler	PROC
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask
-	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
 	STR r2,[r1]	;Store the toggled mask to properly toggle next time
 	STR r2,[r0,#GPIODATAPB5]
 	;LDR r2,[r0,#GPIODATAPB5]
@@ -412,7 +412,7 @@ Timer4B_Handler	PROC
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask
-	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
 	STR r2,[r1]	;Store the toggled mask to properly toggle next time
 	STR r2,[r0,#GPIODATAPB5]
 	;LDR r2,[r0,#GPIODATAPB5]
@@ -456,18 +456,18 @@ UART0_Handler	PROC
 	
 	;Rx Time out interrupt
 	CMP r2,#1
-	BEQ RTISR
+	BEQ RTISR0
 	
 	;TxFIFO interrupt
 	CMP r3,#1
-	BEQ TxFIFOISR
+	BEQ TxFIFOISR0
 	
 	;RxFIFO interrupt
 	CMP r4,#1
-	BEQ RxFIFOISR
+	BEQ RxFIFOISR0
 	
 	;Services the interrupt caused by a time out
-RTISR		
+RTISR0		
 	;Write a '??' character to send at time out
 	LDR r0, =UART0
 	
@@ -492,7 +492,7 @@ RTISR
 	BX LR
 		
 	;Services the interrupt caused by a TxFIFO
-TxFIFOISR		
+TxFIFOISR0		
 	;Write actions here
 
 	;Clear RIS bit
@@ -508,7 +508,7 @@ TxFIFOISR
 	BX LR
 		
 	;Services the interrupt caused by RxFIFO
-RxFIFOISR		
+RxFIFOISR0		
 	;Read from RxFIFO via UARTDR
 	LDR r0, =UART0
 	LDR r1,[r0, #UARTDR] ;First byte
@@ -519,17 +519,17 @@ RxFIFOISR
 	
 	;If r2 = 'o' (lower case)
 	CMP r2,#0x6F
-	BNE RxFIFOISR_cont
+	BNE RxFIFOISR0_cont
 	
 	;write "high" to data register for port F pin 1 to turn on red LED. GPIODATA
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask
-	EOR r2, r2, #0xF0	;Toggle mas to toggle PB5
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
 	STR r2,[r1]	;Store the toggled mask to properly toggle next time
 	STR r2,[r0,#GPIODATAPB5]
 
-RxFIFOISR_cont
+RxFIFOISR0_cont
 	;Clear RIS bit
 	LDR r0, =UART0
 	LDR r1,[r0, #UARTICR]
@@ -543,6 +543,127 @@ RxFIFOISR_cont
 	BX LR
 	
 	ENDP
+	
+;I added the UART1 handler here
+UART1_Handler	PROC
+	EXPORT UART1_Handler
+	;Save context
+	PUSH {r4,r5,r6} ;Add more registers if you'll be using more
+	
+	;Load UARTMIS to check for conditions
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTMIS]
+	
+	;Rx Time out condition
+	AND r2,r1,#(1<<6)
+	LSR r2,r2,#6
+	
+	;TxFIFO condition
+	AND r3,r1,#(1<<5)
+	LSR r3,r3,#5
+	
+	;RxFIFO condition
+	AND r4,r1,#(1<<4)
+	LSR r4,r4,#4
+	
+	;Rx Time out interrupt
+	CMP r2,#1
+	BEQ RTISR1
+	
+	;TxFIFO interrupt
+	CMP r3,#1
+	BEQ TxFIFOISR1
+	
+	;RxFIFO interrupt
+	CMP r4,#1
+	BEQ RxFIFOISR1
+	
+	;Services the interrupt caused by a time out
+RTISR1	
+	;Write a '??' character to send at time out
+	LDR r0, =UART1
+	
+	;The '?' character
+	MOV r1,#0x3F
+	MOV r2,#0x3F
+	
+	;Write '??' to UARTDR
+	STR r1,[r0, #UARTDR]
+	STR r2,[r0, #UARTDR]
+
+	;Clear RIS bit
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#6,#1
+	ORR r1,r1,#(1<<6)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
+	BX LR
+		
+	;Services the interrupt caused by a TxFIFO
+TxFIFOISR1	
+	;Write actions here
+
+	;Clear RIS bit
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#5,#1
+	ORR r1,r1,#(1<<5)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
+	BX LR
+		
+	;Services the interrupt caused by RxFIFO
+RxFIFOISR1
+	;Read from RxFIFO via UARTDR
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTDR] ;First byte (plus 4 bits of flags)
+	LDR r2,[r0, #UARTDR] ;Second byte (plus 4 bits of flags)
+	
+	;In case bits need to be reversed
+	RBIT r3,r1
+	RBIT r4,r2
+	
+	;Clear 4 bit flags
+	BFC r3,#8,#4
+	BFC r4,#8,#4
+	
+	;If r3 = 'o' (lower case)
+	CMP r3,#0x6F
+	BNE RxFIFOISR_cont1
+	
+	;write "high" to data register for port F pin 1 to turn on red LED. GPIODATA
+	LDR r0, =AHB_PORTB
+	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
+	LDR r2,[r1] ;Grab value of PB5 mask
+	EOR r2, r2, #GPIOP5;#0x20;#0xF0	;Toggle mas to toggle PB5
+	STR r2,[r1]	;Store the toggled mask to properly toggle next time
+	STR r2,[r0,#GPIODATAPB5]
+
+RxFIFOISR_cont1
+	;Clear RIS bit
+	LDR r0, =UART1
+	LDR r1,[r0, #UARTICR]
+	BFC r1,#4,#1
+	ORR r1,r1,#(1<<4)
+	STR r1,[r0, #UARTICR]
+		
+	;Restore context
+	POP {r4,r5,r6} ;Add more registers if you'll be using more
+		
+	BX LR
+	
+	ENDP
+	
+	
+	
+	
 	
 ;******************************************************************************
 ;
