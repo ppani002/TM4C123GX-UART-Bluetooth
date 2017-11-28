@@ -580,16 +580,16 @@ UART1_Handler	PROC
 	
 	;Services the interrupt caused by a time out
 RTISR1	
-	;Write a '??' character to send at time out
-	LDR r0, =UART1
+	;;For debugging. Write a '??' character to send at time out
+	;LDR r0, =UART1
 	
-	;The '?' character
-	MOV r1,#0x3F
-	MOV r2,#0x3F
+	;;The '?' character
+	;MOV r1,#0x3F
+	;;MOV r2,#0x3F
 	
-	;Write '??' to UARTDR
-	STR r1,[r0, #UARTDR]
-	STR r2,[r0, #UARTDR]
+	;;Write '??' to UARTDR
+	;STR r1,[r0, #UARTDR]
+	;;STR r2,[r0, #UARTDR]
 
 	;Clear RIS bit
 	LDR r0, =UART1
@@ -624,7 +624,7 @@ RxFIFOISR1
 	;Read from RxFIFO via UARTDR
 	LDR r0, =UART1
 	LDR r1,[r0, #UARTDR] ;First byte (plus 4 bits of flags)
-	LDR r2,[r0, #UARTDR] ;Second byte (plus 4 bits of flags)
+	;LDR r2,[r0, #UARTDR] ;Second byte (plus 4 bits of flags)
 	
 	;This is not necessary. Bits come in in the correct position
 	;In case bits need to be reversed
@@ -632,14 +632,17 @@ RxFIFOISR1
 	;RBIT r4,r2
 	
 	;Clear 4 bit flags
-	BFC r3,#8,#4
-	BFC r4,#8,#4
+	BFC r1,#8,#4; if using RBIT, change r1 ro r3
+	;BFC r4,#8,#4
 	
-	;If r3 = 'o' (lower case)
-	CMP r3,#0x6F
-	BNE RxFIFOISR_cont1
+	;If r1 = 'o' (lower case)
+	CMP r1,#0x6F
 	
-	;write "high" to data register for port F pin 1 to turn on red LED. GPIODATA
+	;;For debugging. If r1 = '?'
+	;CMP r1,#0x3F
+	;BNE RxFIFOISR_cont1
+	
+	;Toggle bit mask for PB5 to flash external LED.
 	LDR r0, =AHB_PORTB
 	LDR r1, =PB5_MASK ;Get RAM address of PB5 mask value
 	LDR r2,[r1] ;Grab value of PB5 mask

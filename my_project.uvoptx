@@ -118,7 +118,7 @@
           <Number>0</Number>
           <Key>DLGUARM</Key>
           <Name>ÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÈ`O
-9§å´lõï</Name>
+/GìÆlõï</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -173,7 +173,7 @@
           <Type>0</Type>
           <LineNumber>625</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1006</Address>
+          <Address>1000</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -205,7 +205,7 @@
           <Type>0</Type>
           <LineNumber>35</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>1192</Address>
+          <Address>1176</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -221,7 +221,7 @@
           <Type>0</Type>
           <LineNumber>17</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1088</Address>
+          <Address>1076</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -253,7 +253,7 @@
           <Type>0</Type>
           <LineNumber>369</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1754</Address>
+          <Address>1738</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>

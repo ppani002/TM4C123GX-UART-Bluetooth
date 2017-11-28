@@ -34,20 +34,16 @@ __main	PROC
 	
 	
 	
-	;Writing data to UARTDR for debugging
-	;Write a '??' character to send at time out
-	LDR r0, =UART1
+	;;Writing data to UARTDR for debugging
+	;;Write a '??' character to send at time out
+	;LDR r0, =UART1
 	
-	;The '?' character
-	MOV r1,#0x3F
-	MOV r2,#0x3F
+	;;The '?' character
+	;MOV r1,#0x3F
 	
-	;Write '??' to UARTDR
-	STR r1,[r0, #UARTDR]
-	;STR r2,[r0, #UARTDR]
+	;;Write '??' to UARTDR
+	;STR r1,[r0, #UARTDR]
 	
-	
-
 	
 	
 while
