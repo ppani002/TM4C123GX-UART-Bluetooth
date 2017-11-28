@@ -33,19 +33,6 @@ __main	PROC
 	BL UART_Init
 	
 	
-	
-	;;Writing data to UARTDR for debugging
-	;;Write a '??' character to send at time out
-	;LDR r0, =UART1
-	
-	;;The '?' character
-	;MOV r1,#0x3F
-	
-	;;Write '??' to UARTDR
-	;STR r1,[r0, #UARTDR]
-	
-	
-	
 while
 	
 	B while

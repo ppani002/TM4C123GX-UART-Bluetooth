@@ -369,9 +369,6 @@ UART_Init	PROC
 	LDR r0, =UART1
 	LDR r1,[r0, #UARTCTL] ;Program hangs here if I read. Just write instead
 	
-	;Set LBE bit for debugging
-	;ORR r1,r1,#(1<<7)
-	
 	;Clear UART enable bit
 	BFC r1,#0,#1
 	

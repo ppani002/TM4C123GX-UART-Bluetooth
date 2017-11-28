@@ -580,16 +580,7 @@ UART1_Handler	PROC
 	
 	;Services the interrupt caused by a time out
 RTISR1	
-	;;For debugging. Write a '??' character to send at time out
-	;LDR r0, =UART1
-	
-	;;The '?' character
-	;MOV r1,#0x3F
-	;;MOV r2,#0x3F
-	
-	;;Write '??' to UARTDR
-	;STR r1,[r0, #UARTDR]
-	;;STR r2,[r0, #UARTDR]
+	;Write actions here
 
 	;Clear RIS bit
 	LDR r0, =UART1
@@ -637,10 +628,6 @@ RxFIFOISR1
 	
 	;If r1 = 'o' (lower case)
 	CMP r1,#0x6F
-	
-	;;For debugging. If r1 = '?'
-	;CMP r1,#0x3F
-	;BNE RxFIFOISR_cont1
 	
 	;Toggle bit mask for PB5 to flash external LED.
 	LDR r0, =AHB_PORTB
