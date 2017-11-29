@@ -9,9 +9,9 @@ ARM Macro Assembler    Page 1
     3 00000000         
     4 00000000         ;GPIO data mask 
     5 00000000                 EXPORT           PB5_MASK
-    6 00000000 000000F0 
+    6 00000000 00000020 
                        PB5_MASK
-                               DCD              240         ;0x000000F0
+                               DCD              0x20        ;0xF0
     7 00000004         
     8 00000004         ;FIFO variables
     9 00000004                 ALIGN            1
@@ -20,8 +20,10 @@ ARM Macro Assembler    Page 1
    12 00000004 00      temp    DCB              0           ;Used to write to U
                                                             ARTDR
    13 00000005         
-   14 00000005         ;Software FIFOs. Static
-   15 00000005 00 00 00 
+   14 00000005                 EXPORT           TxFifo
+   15 00000005                 EXPORT           RxFifo
+   16 00000005         ;Software FIFOs. Static
+   17 00000005 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
@@ -29,7 +31,7 @@ ARM Macro Assembler    Page 1
               00       TxFifo  DCB              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
  
                                                             ;16 bytes
-   16 00000015 00 00 00 
+   18 00000015 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
@@ -37,30 +39,36 @@ ARM Macro Assembler    Page 1
               00       RxFifo  DCB              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
  
                                                             ;16 bytes
-   17 00000025         
-   18 00000025 00 00 00        ALIGN            4
-   19 00000028                 EXPORT           TxPutI
-   20 00000028                 EXPORT           TxGetI
-   21 00000028         ;Tx counters
-   22 00000028 00000000 
+   19 00000025         
+   20 00000025 00 00 00        ALIGN            4
+   21 00000028                 EXPORT           TxPutI
+   22 00000028                 EXPORT           TxGetI
+   23 00000028         ;Tx counters
+   24 00000028 00000000 
                        TxPutI  DCD              0
-   23 0000002C 00000000 
+   25 0000002C 00000000 
                        TxGetI  DCD              0
-   24 00000030         
-   25 00000030                 EXPORT           RxPutI
-   26 00000030                 EXPORT           RxGetI
-   27 00000030         ;Rx counters
-   28 00000030 00000000 
+   26 00000030         
+   27 00000030                 EXPORT           RxPutI
+   28 00000030                 EXPORT           RxGetI
+   29 00000030         ;Rx counters
+   30 00000030 00000000 
                        RxPutI  DCD              0
-   29 00000034 00000000 
+   31 00000034 00000000 
                        RxGetI  DCD              0
-   30 00000038         
-   31 00000038                 END
+   32 00000038         
+   33 00000038                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\my_variables.d -o.\objects\my_variables.o -IC:\ti\Tiv
 aWare_C_Series-2.1.4.178\examples\boards\my_projects\project4\RTE -IC:\Keil_v5\
 ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSIS\Incl
 ude --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --pred
+
+
+
+ARM Macro Assembler    Page 2 
+
+
 efine="TM4C123GH6PM SETA 1" --list=.\listings\my_variables.lst my_Variables.s
 
 
@@ -88,41 +96,41 @@ RxFifo 00000015
 
 Symbol: RxFifo
    Definitions
-      At line 16 in file my_Variables.s
+      At line 18 in file my_Variables.s
    Uses
-      None
-Comment: RxFifo unused
+      At line 15 in file my_Variables.s
+Comment: RxFifo used once
 RxGetI 00000034
 
 Symbol: RxGetI
    Definitions
-      At line 29 in file my_Variables.s
+      At line 31 in file my_Variables.s
    Uses
-      At line 26 in file my_Variables.s
+      At line 28 in file my_Variables.s
 Comment: RxGetI used once
 RxPutI 00000030
 
 Symbol: RxPutI
    Definitions
-      At line 28 in file my_Variables.s
+      At line 30 in file my_Variables.s
    Uses
-      At line 25 in file my_Variables.s
+      At line 27 in file my_Variables.s
 Comment: RxPutI used once
 TxFifo 00000005
 
 Symbol: TxFifo
    Definitions
-      At line 15 in file my_Variables.s
+      At line 17 in file my_Variables.s
    Uses
-      None
-Comment: TxFifo unused
+      At line 14 in file my_Variables.s
+Comment: TxFifo used once
 TxGetI 0000002C
 
 Symbol: TxGetI
    Definitions
-      At line 23 in file my_Variables.s
+      At line 25 in file my_Variables.s
    Uses
-      At line 20 in file my_Variables.s
+      At line 22 in file my_Variables.s
 Comment: TxGetI used once
 TxPutI 00000028
 
@@ -134,9 +142,9 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 22 in file my_Variables.s
+      At line 24 in file my_Variables.s
    Uses
-      At line 19 in file my_Variables.s
+      At line 21 in file my_Variables.s
 Comment: TxPutI used once
 temp 00000004
 

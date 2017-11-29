@@ -399,6 +399,11 @@
               <FileType>2</FileType>
               <FilePath>.\my_Variables.s</FilePath>
             </File>
+            <File>
+              <FileName>my_Subroutines.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\my_Subroutines.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
